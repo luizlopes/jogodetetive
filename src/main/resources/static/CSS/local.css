@@ -1,0 +1,320 @@
+.local1{
+  background-repeat: no-repeat;
+  background-size: 350px 250px;
+  border: 0px;
+}
+
+.local2{
+  background-repeat: no-repeat;
+  background-size: 300px 300px;
+  border: 0px;
+}
+
+.local3{
+  background-repeat: no-repeat;
+  background-size: 300px 300px;
+  border: 0px;
+}
+
+.local4{
+  background-repeat: no-repeat;
+  background-size: 300px 200px;
+  border: 0px;
+}
+
+.local5{
+  background-repeat: no-repeat;
+  background-size: 350px 450px;
+  border: 0px;
+}
+
+.local6{
+  background-repeat: no-repeat;
+  background-size: 350px 200px;
+  border: 0px;
+}
+
+.local7{
+  background-repeat: no-repeat;
+  background-size: 300px 300px;
+  border: 0px;
+}
+
+.local8{
+  background-repeat: no-repeat;
+  background-size: 300px 300px;
+  border: 0px;
+}
+
+.local9{
+  background-repeat: no-repeat;
+  background-size: 300px 250px;
+  border: 0px;
+}
+
+.local10{
+   background-repeat: no-repeat;
+   background-size: 350px 300px;
+   border: 0px;
+}
+
+.local11{
+   background-repeat: no-repeat;
+   background-size: 300px 250px;
+   border: 0px;
+}
+
+.posicao11 {  
+  background-position: 0 0;
+}
+
+.posicao12{
+  background-position: -50px 0;
+}
+
+.posicao13{
+   background-position: -100px 0;
+}
+
+.posicao14{
+   background-position: -150px 0;
+}
+
+.posicao15{
+   background-position: -200px 0;
+}
+
+.posicao16{
+   background-position: -250px 0;
+}
+
+.posicao17{
+   background-position: -300px 0;
+}
+
+.posicao21{
+ background-position: 0 -50px;
+}
+
+.posicao22{
+ background-position: -50px -50px;
+}
+
+.posicao23{
+   background-position: -100px -50px;
+}
+
+.posicao24{
+   background-position: -150px -50px;
+}
+
+.posicao25{
+   background-position: -200px -50px;
+}
+
+.posicao26{
+   background-position: -250px -50px;
+}
+
+.posicao27{
+   background-position: -300px -50px;
+}
+
+.posicao31{
+ background-position: 0 -100px;
+}
+
+.posicao32{
+ background-position: -50px -100px;
+}
+
+.posicao33{
+   background-position: -100px -100px;
+}
+
+.posicao34{
+   background-position: -150px -100px;
+}
+
+.posicao35{
+   background-position: -200px -100px;
+}
+
+.posicao36{
+   background-position: -250px -100px;
+}
+
+.posicao37{
+   background-position: -300px -100px;
+}
+
+.posicao41{
+ background-position: 0 -150px;
+}
+
+.posicao42{
+ background-position: -50px -150px;
+}
+
+.posicao43{
+   background-position: -100px -150px;
+}
+
+.posicao44{
+   background-position: -150px -150px;
+}
+
+.posicao45{
+   background-position: -200px -150px;
+}
+
+.posicao46{
+   background-position: -250px -150px;
+}
+
+.posicao47{
+   background-position: -300px -150px;
+}
+
+.posicao51{
+ background-position: 0 -200px;
+}
+
+.posicao52{
+ background-position: -50px -200px;
+}
+
+.posicao53{
+   background-position: -100px -200px;
+}
+
+.posicao54{
+   background-position: -150px -200px;
+}
+
+.posicao55{
+   background-position: -200px -200px;
+}
+
+.posicao56{
+   background-position: -250px -200px;
+}
+
+.posicao57{
+   background-position: -300px -200px;
+}
+
+.posicao61{
+ background-position: 0 -250px;
+}
+
+.posicao62{
+ background-position: -50px -250px;
+}
+
+.posicao63{
+   background-position: -100px -250px;
+}
+
+.posicao64{
+   background-position: -150px -250px;
+}
+
+.posicao65{
+   background-position: -200px -250px;
+}
+
+.posicao66{
+   background-position: -250px -250px;
+}
+
+.posicao67{
+   background-position: -300px -250px;
+}
+
+.posicao71{
+ background-position: 0 -300px;
+}
+
+.posicao72{
+ background-position: -50px -300px;
+}
+
+.posicao73{
+   background-position: -100px -300px;
+}
+
+.posicao74{
+   background-position: -150px -300px;
+}
+
+.posicao75{
+   background-position: -200px -300px;
+}
+
+.posicao76{
+   background-position: -250px -300px;
+}
+
+.posicao77{
+   background-position: -300px -300px;
+}
+
+.posicao81{
+ background-position: 0 -350px;
+}
+
+.posicao82{
+ background-position: -50px -350px;
+}
+
+.posicao83{
+   background-position: -100px -350px;
+}
+
+.posicao84{
+   background-position: -150px -350px;
+}
+
+.posicao85{
+   background-position: -200px -350px;
+}
+
+.posicao86{
+   background-position: -250px -350px;
+}
+
+.posicao87{
+   background-position: -300px -350px;
+}
+
+.posicao91{
+ background-position: 0 -400px;
+}
+
+.posicao92{
+ background-position: -50px -400px;
+}
+
+.posicao93{
+   background-position: -100px -400px;
+}
+
+.posicao94{
+   background-position: -150px -400px;
+}
+
+.posicao95{
+   background-position: -200px -400px;
+}
+
+.posicao96{
+   background-position: -250px -400px;
+}
+
+.posicao97{
+   background-position: -300px -400px;
+}
+.carta_ativa{
+  border:2px solid #afaf1c;
+}
