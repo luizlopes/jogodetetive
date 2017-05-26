@@ -3,6 +3,7 @@ package org.luizlopes.domain.jogador.estados;
 import org.luizlopes.domain.jogador.Jogador;
 import org.luizlopes.websocket.model.Command;
 import org.luizlopes.websocket.model.Info;
+import org.luizlopes.websocket.model.InfoType;
 
 import static org.luizlopes.websocket.model.CommandType.ESPERAR_VEZ;
 
@@ -29,7 +30,7 @@ public class EsperarVez implements JogadorState {
 
     @Override
     public Info sendInfo() {
-        return null;
+        return new Info(jogador, InfoType.ULTIMO_JOGADOR);
     }
 
     @Override

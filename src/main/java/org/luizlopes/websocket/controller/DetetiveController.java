@@ -81,10 +81,8 @@ public class DetetiveController implements Observer {
             Info info = jogador.sendInfo();
             if (info.getType() == InfoType.JOGADORES) {
                 info.setBody(jogadores.jogadores());
-                sendGameInfo(info);
-            } else {
-                sendGameInfo(info);
             }
+            sendGameInfo(info);
         }
     }
 

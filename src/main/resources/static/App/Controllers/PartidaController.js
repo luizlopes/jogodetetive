@@ -390,6 +390,9 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         if (info.type == "JOGADOR_ATUAL") {
             $scope.jogadorDaVez = info.body;
         }
+        if (info.type == "ULTIMO_JOGADOR") {
+            $scope.DeslocarImg(info.body);
+        }
     });
 
 }]);
