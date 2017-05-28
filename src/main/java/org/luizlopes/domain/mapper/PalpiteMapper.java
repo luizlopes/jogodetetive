@@ -1,6 +1,8 @@
-package org.luizlopes.domain;
+package org.luizlopes.domain.mapper;
 
-import org.luizlopes.websocket.model.Command;
+import org.luizlopes.domain.Carta;
+import org.luizlopes.domain.Palpite;
+import org.luizlopes.domain.mapper.CartaMapper;
 
 import java.util.Map;
 

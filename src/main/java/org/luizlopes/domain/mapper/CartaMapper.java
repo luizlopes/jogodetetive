@@ -1,5 +1,6 @@
-package org.luizlopes.domain;
+package org.luizlopes.domain.mapper;
 
+import org.luizlopes.domain.Carta;
 import org.luizlopes.websocket.model.Command;
 
 import java.util.LinkedHashMap;

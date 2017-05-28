@@ -1,4 +1,4 @@
-package org.luizlopes.domain;
+package org.luizlopes.domain.mapper;
 
 import org.luizlopes.domain.jogador.Posicao;
 import org.luizlopes.websocket.model.Command;

@@ -2,7 +2,7 @@ package org.luizlopes.domain;
 
 import org.luizlopes.domain.jogador.Jogador;
 import org.luizlopes.domain.jogador.Posicao;
-import org.luizlopes.domain.jogador.estados.JogadorStatus;
+import org.luizlopes.domain.jogador.JogadorStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.*;

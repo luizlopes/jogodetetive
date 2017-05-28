@@ -1,4 +1,4 @@
-package org.luizlopes.domain.jogador.estados;
+package org.luizlopes.domain.jogador;
 
 public enum JogadorStatus {
 

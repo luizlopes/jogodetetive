@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 import java.util.Observable;
 import java.util.Observer;
 
-import static org.luizlopes.domain.jogador.estados.JogadorStatus.INICIANDO;
+import static org.luizlopes.domain.jogador.JogadorStatus.INICIANDO;
 
 @Component
 public class Jogo extends Observable implements Observer {

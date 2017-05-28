@@ -1,7 +1,8 @@
 package org.luizlopes.domain.jogador.estados;
 
 import org.luizlopes.domain.Palpite;
-import org.luizlopes.domain.PalpiteMapper;
+import org.luizlopes.domain.jogador.JogadorStatus;
+import org.luizlopes.domain.mapper.PalpiteMapper;
 import org.luizlopes.domain.jogador.Jogador;
 import org.luizlopes.websocket.model.Command;
 import org.luizlopes.websocket.model.CommandType;

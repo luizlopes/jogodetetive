@@ -1,6 +1,7 @@
 package org.luizlopes.domain.jogador.estados;
 
-import org.luizlopes.domain.PosicaoMapper;
+import org.luizlopes.domain.jogador.JogadorStatus;
+import org.luizlopes.domain.mapper.PosicaoMapper;
 import org.luizlopes.domain.jogador.Jogador;
 import org.luizlopes.domain.jogador.Posicao;
 import org.luizlopes.websocket.model.Command;

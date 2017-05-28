@@ -3,6 +3,7 @@ package org.luizlopes.websocket.controller;
 import org.luizlopes.domain.*;
 import org.luizlopes.domain.jogador.Jogador;
 import org.luizlopes.domain.jogador.Posicao;
+import org.luizlopes.domain.mapper.CartaMapper;
 import org.luizlopes.service.CartaService;
 import org.luizlopes.websocket.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
