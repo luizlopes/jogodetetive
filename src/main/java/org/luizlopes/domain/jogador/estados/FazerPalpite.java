@@ -6,6 +6,7 @@ import org.luizlopes.domain.jogador.Jogador;
 import org.luizlopes.websocket.model.Command;
 import org.luizlopes.websocket.model.CommandType;
 import org.luizlopes.websocket.model.Info;
+import org.luizlopes.websocket.model.InfoType;
 
 import java.util.Map;
 
@@ -33,7 +34,7 @@ public class FazerPalpite implements JogadorState {
 
     @Override
     public Info sendInfo() {
-        return null;
+        return new Info(jogador, InfoType.ULTIMO_JOGADOR);
     }
 
     @Override

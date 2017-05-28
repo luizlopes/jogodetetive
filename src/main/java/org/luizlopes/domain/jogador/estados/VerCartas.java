@@ -4,6 +4,7 @@ import org.luizlopes.domain.Palpite;
 import org.luizlopes.domain.jogador.Jogador;
 import org.luizlopes.websocket.model.Command;
 import org.luizlopes.websocket.model.Info;
+import org.luizlopes.websocket.model.InfoType;
 
 public class VerCartas implements JogadorState {
 
@@ -27,7 +28,7 @@ public class VerCartas implements JogadorState {
 
     @Override
     public Info sendInfo() {
-        return null;
+        return new Info(palpite, InfoType.PALPITE_FEITO);
     }
 
     @Override

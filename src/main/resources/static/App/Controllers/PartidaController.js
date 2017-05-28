@@ -5,8 +5,18 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
     $scope.indiceJogadorAtual = 0;
     $scope.personagensDisponiveis = [];
     $scope.palpite = {};
-/*
+    $scope.palpiteFeito = {};
+    /*
+    $scope.palpiteFeito = {
+        suspeito:{nome:"Senhor Marinho",src:"/Imagens/padrao/personagens/Senhor_Marinho.png"},
+        arma:{nome:"Pé de Cabra",src:"/Imagens/padrao/armas/pe_de_cabra.png"},
+        local:{nome:"Hotel",src:"/Imagens/padrao/locais/hotel.png"}
+    };
+    */
 
+/*
+<div class="perfil" style="background-image: url({{palpiteFeito.suspeito.src}}) "></div>
+                        <span class="nome">{{palpiteFeito.suspeito.nome}}</span>
     $scope.numeroJogadas = 0;
 
     $scope.personagens = [];
@@ -174,9 +184,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
             numeroJogadas -= 1;
 
             var div = $(this);
-            if ($scope.PosicaoEhPorta(jogadorAtual, numeroJogadas, div)) {
-                if (callback)
-                    callback(jogadorAtual.posicao.posicao, true);
+            if ($scope.PosicaoEhPorta(jogadorAtual, numeroJogadas, div, callback)) {
                 return;
             }
 
@@ -190,7 +198,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
                 alert('Sua vez acabou');
                 $scope.DesativarTimer();
                 if (callback)
-                    callback(jogadorAtual.posicao.posicao, false);
+                    callback(jogadorAtual.posicao.posicao, null);
             }
         });
     }
@@ -248,7 +256,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         );
     }
 
-    $scope.PosicaoEhPorta = function(jogadorAtual, numeroJogadas, div) {
+    $scope.PosicaoEhPorta = function(jogadorAtual, numeroJogadas, div, callback) {
         if(div.hasClass('porta') && numeroJogadas > 1){
             var resultado = confirm('Deseja entrar?');
             if(resultado){
@@ -259,7 +267,8 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
                 var posicao = div.attr('id').split('_');
                 jogadorAtual.posicao.posicao = [+posicao[0], +posicao[1]];
                 $scope.PosicionarImgNoComodo(jogadorAtual, local);
-                //$scope.AbrirModalPalpite();
+                if (callback)
+                    callback(jogadorAtual.posicao.posicao, local);
                 return true;
             }
             return false;
@@ -322,8 +331,8 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
     }
 
     // MOVER JOGADOR RESPONSE
-    moverJogadorResponse = function(posicao, ehComodo) {
-        return JSON.stringify({ type: 'MOVER_JOGADOR', response: { posicao: posicao, ehComodo: ehComodo }});
+    moverJogadorResponse = function(posicao, comodo) {
+        return JSON.stringify({ type: 'MOVER_JOGADOR', response: { posicao: posicao, comodo: comodo }});
     }
 
     // ENVIAR PALPITE
@@ -379,11 +388,10 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
             $scope.numeroJogadas = command.options;
             $scope.DestacarJogadorAtual($scope.partida.meuJogador);
             $scope.MostrarCasasDisponiveisParaAndar($scope.partida.meuJogador.posicao.posicao);
-            $scope.HabilitarClickAndar($scope.partida.meuJogador, $scope.numeroJogadas, function(posicao, ehComodo) {
-                WebsocketService.send_command(moverJogadorResponse(posicao, ehComodo), null);
+            $scope.HabilitarClickAndar($scope.partida.meuJogador, $scope.numeroJogadas, function(posicao, comodo) {
+                WebsocketService.send_command(moverJogadorResponse(posicao, comodo), null);
             });
         }
-
         if (command.type == "FAZER_PALPITE") {
             $scope.AbrirModalPalpite();
         }
@@ -409,7 +417,16 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
             $scope.jogadorDaVez = info.body;
         }
         if (info.type == "ULTIMO_JOGADOR") {
-            $scope.DeslocarImg(info.body);
+            var jogadorAtual = info.body;
+            if (jogadorAtual.posicao.comodo) {
+                $scope.PosicionarImgNoComodo(jogadorAtual, jogadorAtual.posicao.comodo);
+            } else {
+                $scope.DeslocarImg(jogadorAtual);
+            }
+        }
+        if (info.type == "PALPITE_FEITO") {
+            $scope.palpiteFeito = info.body;
+            $("#palpiteFeitoModal").modal("show");
         }
     });
 

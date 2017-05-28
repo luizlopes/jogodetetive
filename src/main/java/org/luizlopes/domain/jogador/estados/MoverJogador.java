@@ -1,13 +1,10 @@
 package org.luizlopes.domain.jogador.estados;
 
+import org.luizlopes.domain.PosicaoMapper;
 import org.luizlopes.domain.jogador.Jogador;
 import org.luizlopes.domain.jogador.Posicao;
 import org.luizlopes.websocket.model.Command;
 import org.luizlopes.websocket.model.Info;
-
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 import static org.luizlopes.websocket.model.CommandType.MOVER_JOGADOR;
 
@@ -31,11 +28,9 @@ public class MoverJogador implements JogadorState {
 
     @Override
     public JogadorState receiveReponse(Command response) {
-        Map<String, Object> map = (LinkedHashMap) response.getResponse();
-        List<Integer> posicao = (List<Integer>) map.get("posicao");
-        Boolean ehComodo = (Boolean) map.get("ehComodo");
-        jogador.setPosicao(new Posicao(posicao.get(0), posicao.get(1), ehComodo));
-        if (ehComodo) {
+        Posicao posicao = PosicaoMapper.parse(response);
+        jogador.setPosicao(posicao);
+        if (posicao.isComodo()) {
             return new FazerPalpite(jogador);
         }
         return new EsperarVez(jogador);

@@ -78,12 +78,15 @@ public class DetetiveController implements Observer {
             if (info.getType() == InfoType.JOGADORES) {
                 info.setBody(jogadores.jogadores());
             }
+            // PALPITE_FEITO
+
             sendGameInfo(info);
         }
     }
 
     private void sendCommand(Jogador jogador) {
-        template.convertAndSendToUser(jogador.getUsuario(), COMMAND_QUEUE, jogador.sendCommand());
+        if (jogador.sendCommand() != null)
+            template.convertAndSendToUser(jogador.getUsuario(), COMMAND_QUEUE, jogador.sendCommand());
     }
 
     @MessageMapping(INFO_BROKER)

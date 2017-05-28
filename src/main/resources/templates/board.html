@@ -953,7 +953,36 @@
                 </div>
             </div>
         </div>
-    </div>
+
+        <!-- JOGADOR FEZ PALPITE MODAL  -->
+        <div class="modal fade" id="palpiteFeitoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Palpite feito por {{palpiteFeito.jogador.personagem.nome}} ( {{palpiteFeito.jogador.usuario}} )</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="carta carta_sombra personagem" >
+                            <div class="perfil" style="background-image: url({{palpiteFeito.suspeito.src}}) "></div>
+                            <span class="nome">{{palpiteFeito.suspeito.nome}}</span>
+                        </div>
+                        <div class="carta carta_sombra arma">
+                            <div class="perfil" style="background-image: url({{palpiteFeito.arma.src}}) "></div>
+                            <span class="nome">{{palpiteFeito.arma.nome}}</span>
+                        </div>
+                        <div class="carta carta_sombra local">
+                            <div class="perfil" style="background-image: url({{palpiteFeito.local.src}}) "></div>
+                            <span class="nome">{{palpiteFeito.local.nome}}</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- partidacontroller -->
 
     <div ng-controller="ChatCtrl">
         <!-- Chat Modal -->
