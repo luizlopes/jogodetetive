@@ -23,6 +23,7 @@ public class Jogo extends Observable implements Observer {
     @Getter @Setter
     private Jogador atual;
 
+    @Getter
     private JogoStatus status;
 
     @PostConstruct
@@ -35,7 +36,7 @@ public class Jogo extends Observable implements Observer {
     public void update(Observable o, Object arg) {
         Jogador jogador = (Jogador) arg;
         if (status == JogoStatus.PARTIDA_NAO_INICIADA) {
-            if (jogador.status() == INICIANDO) {
+            if (jogador.getStatus() == INICIANDO) {
                 setChanged();
                 notifyObservers(jogador);
             } else {
@@ -54,5 +55,19 @@ public class Jogo extends Observable implements Observer {
             setChanged();
             notifyObservers(jogador);
         }
+    }
+
+    public void cancelarPartida() {
+        status = JogoStatus.PARTIDA_CANCELADA;
+        // AVISAR JOGADORES QUE PARTIDA FOI CANCELADA
+        // NAO RECEBER MAIS MENSAGENS
+    }
+
+    public void reiniciarPartida() {
+        status = JogoStatus.PARTIDA_REINICIADA;
+        // AVISAR JOGADORES QUE PARTIDA SERÁ REINICIADA
+        // NAO RECEBER MENSAGENS
+        // RETORNAR JOGADORES PARA SUAS POSICOES INICIAIS
+        // INICIAR PARTIDA
     }
 }

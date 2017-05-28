@@ -1,6 +1,5 @@
 package org.luizlopes.domain;
 
-import lombok.Getter;
 import org.luizlopes.domain.jogador.Jogador;
 import org.luizlopes.domain.jogador.Posicao;
 import org.luizlopes.domain.jogador.estados.JogadorStatus;
@@ -55,7 +54,7 @@ public class Jogadores extends Observable implements Observer {
     public boolean todosEsperando() {
         boolean todosEsperando = true;
         for (Jogador j : jogadores.values()) {
-            if (j.status() != JogadorStatus.ESPERANDO) {
+            if (j.getStatus() != JogadorStatus.ESPERANDO) {
                 todosEsperando = false;
                 break;
             }

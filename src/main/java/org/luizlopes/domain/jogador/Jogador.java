@@ -67,7 +67,7 @@ public class Jogador extends Observable {
         changeState(lancarDados);
     }
 
-    public JogadorStatus status() {
+    public JogadorStatus getStatus() {
         return state.status();
     }
 

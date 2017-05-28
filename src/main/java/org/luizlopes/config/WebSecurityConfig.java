@@ -20,7 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .defaultSuccessUrl("/chat")
+                .defaultSuccessUrl("/board")
                 .loginPage("/login")
                 .permitAll()
                 .and()
