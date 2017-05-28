@@ -15,11 +15,11 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         return $scope.partida.jogadores[$scope.indiceJogadorAtual];
     }
 */
-
+/*
     $scope.EnviarPalpite = function() {
         $('#palpiteModal').hide();
     }
-
+*/
     $scope.DefinirEstilo = function(imagemDoFundo, corBordas, locais) {
         var conteudo = new Array();
         conteudo.push('#divTabuleiro {');
@@ -326,12 +326,26 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         return JSON.stringify({ type: 'MOVER_JOGADOR', response: { posicao: posicao, ehComodo: ehComodo }});
     }
 
+    // ENVIAR PALPITE
+    enviarPalpiteResponse = function(palpite) {
+        return JSON.stringify({ type: 'FAZER_PALPITE', response: { palpite }});
+    }
+
+    //
+
     // ENVIA PERSONAGEM ESCOLHIDO
     $scope.enviarPersonagem = function() {
         WebsocketService.send_command(escolherPersonagemResponse($scope.personagemEscolhido), function() {
             $("#choice-characters-modal").modal("hide");
         });
     };
+
+    // ENVIA PALPITE
+    $scope.enviarPalpite = function() {
+        WebsocketService.send_command(enviarPalpiteResponse($scope.palpite), function() {
+            $('#palpiteModal').hide();
+        });
+    }
 
     // RECEBE COMANDOS
     WebsocketService.receive_command().then(null, null, function(data) {
@@ -368,6 +382,10 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
             $scope.HabilitarClickAndar($scope.partida.meuJogador, $scope.numeroJogadas, function(posicao, ehComodo) {
                 WebsocketService.send_command(moverJogadorResponse(posicao, ehComodo), null);
             });
+        }
+
+        if (command.type == "FAZER_PALPITE") {
+            $scope.AbrirModalPalpite();
         }
     });
 

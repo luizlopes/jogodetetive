@@ -1,9 +1,6 @@
 package org.luizlopes.websocket.controller;
 
-import org.luizlopes.domain.Anotacoes;
-import org.luizlopes.domain.Carta;
-import org.luizlopes.domain.Jogadores;
-import org.luizlopes.domain.Jogo;
+import org.luizlopes.domain.*;
 import org.luizlopes.domain.jogador.Jogador;
 import org.luizlopes.domain.jogador.Posicao;
 import org.luizlopes.service.CartaService;
@@ -67,8 +64,7 @@ public class DetetiveController implements Observer {
     }
 
     private void escolhePersonagem(Principal principal, Command command) {
-        Map<String, String> map = (LinkedHashMap) command.getResponse();
-        Carta personagem = new Carta(map.get("nome"), map.get("src"));
+        Carta personagem = CartaMapper.parse(command);
         Posicao posicaoInicial = cartaService.getPosicaoInicial(personagem);
         jogadores.connectUser(principal.getName(), personagem, posicaoInicial, cartaService.anotacoesIniciais());
         Jogador jogador = jogadores.getByUsuario(principal.getName());

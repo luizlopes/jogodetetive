@@ -33,7 +33,11 @@ public class MoverJogador implements JogadorState {
     public JogadorState receiveReponse(Command response) {
         Map<String, Object> map = (LinkedHashMap) response.getResponse();
         List<Integer> posicao = (List<Integer>) map.get("posicao");
-        jogador.setPosicao(new Posicao(posicao.get(0), posicao.get(1), (Boolean) map.get("ehComodo")));
+        Boolean ehComodo = (Boolean) map.get("ehComodo");
+        jogador.setPosicao(new Posicao(posicao.get(0), posicao.get(1), ehComodo));
+        if (ehComodo) {
+            return new FazerPalpite(jogador);
+        }
         return new EsperarVez(jogador);
     }
 

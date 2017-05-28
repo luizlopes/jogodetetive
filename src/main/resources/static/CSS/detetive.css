@@ -211,8 +211,8 @@ body {
 
 /*CARTAS*/
 .carta {
-    width: 100px;
-    height: 140px;
+    width: 80px;
+    height: 100px;
     float: left;
     margin: 5px;
     border-radius: 5px;
