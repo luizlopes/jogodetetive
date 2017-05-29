@@ -115,7 +115,6 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         $('div.casaDispo').removeClass('casaDispo');
     }
 
-/*
     $scope.PegarNumeroDeJogadas = function(){
         var valor1 = Math.floor(Math.random() * 6) + 1;
         var valor2 = Math.floor(Math.random() * 6) + 1;
@@ -133,9 +132,10 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         $scope.FecharModalLancarDados();
         $scope.numeroJogadas = $scope.PegarNumeroDeJogadas();
         $scope.AbrirModalNumeroJogadas();
-        $scope.mostrarCaminhosDisponiveis();
+        WebsocketService.send_command(lancarDadosResponse($scope.numeroJogadas), null);
+        //$scope.mostrarCaminhosDisponiveis();
     }
-*/
+
     $scope.MostrarCasasDisponiveisParaAndar = function(posicao) {
         var disponibilidades = [
             {
@@ -379,12 +379,11 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         }
 
         if (command.type == "LANCAR_DADOS") {
-            alert("voce vai tirar 5!")
-            WebsocketService.send_command(lancarDadosResponse(5), null);
+            $scope.AbrirModalLancarDados()
         }
 
         if (command.type == "MOVER_JOGADOR") {
-            alert("mover peca " + command.options + " casas.");
+            // alert("mover peca " + command.options + " casas.");
             $scope.numeroJogadas = command.options;
             $scope.DestacarJogadorAtual($scope.partida.meuJogador);
             $scope.MostrarCasasDisponiveisParaAndar($scope.partida.meuJogador.posicao.posicao);
