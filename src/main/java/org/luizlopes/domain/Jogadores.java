@@ -98,4 +98,10 @@ public class Jogadores extends Observable implements Observer {
             jogador.esperarVez();
         }
     }
+
+    public void reiniciar() {
+        for (Map.Entry<String, Jogador> entry : jogadores.entrySet()) {
+            entry.setValue(null);
+        }
+    }
 }

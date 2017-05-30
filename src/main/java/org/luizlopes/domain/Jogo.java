@@ -71,7 +71,9 @@ public class Jogo extends Observable implements Observer {
     }
 
     public void reiniciarPartida() {
-        status = JogoStatus.PARTIDA_REINICIADA;
+        status = JogoStatus.PARTIDA_NAO_INICIADA;
+        atual = null;
+        jogadores.reiniciar();
         // AVISAR JOGADORES QUE PARTIDA SERÁ REINICIADA
         // NAO RECEBER MENSAGENS
         // RETORNAR JOGADORES PARA SUAS POSICOES INICIAIS

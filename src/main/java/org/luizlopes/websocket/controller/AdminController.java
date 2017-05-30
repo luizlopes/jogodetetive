@@ -28,14 +28,12 @@ public class AdminController {
 
     @RequestMapping(value="/edit", method=RequestMethod.POST, params="action=cancelar")
     public String cancelarPartida() {
-        System.out.println("cancelar partida");
         jogo.cancelarPartida();
         return "admin";
     }
 
     @RequestMapping(value="/edit", method=RequestMethod.POST, params="action=reiniciar")
     public String reiniciarPartida() {
-        System.out.println("reiniciar partida");
         jogo.reiniciarPartida();
         return "admin";
     }
