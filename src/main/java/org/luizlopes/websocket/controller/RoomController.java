@@ -24,9 +24,10 @@ public class RoomController {
         return "rooms";
     }
 
-    @RequestMapping(value = "/waitingRoom", method = RequestMethod.GET)
-    public String waitingRoom(Model model) {
-        return "waitingRoom";
+    @RequestMapping(value="/reset", method=RequestMethod.POST)
+    public String reiniciarPartida() {
+        jogo.reiniciarPartida();
+        return "redirect:/rooms";
     }
 
 }

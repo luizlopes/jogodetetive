@@ -22,7 +22,12 @@
                     <td>Detetive</td>
                     <td th:text="${jogoStatus}" />
                     <td th:text="${jogadores}" />
-                    <td><a th:href="@{/board}">Entrar</a></td>
+                    <td><a class="btn btn-primary" th:href="@{/board}">Entrar</a></td>
+                    <td>
+                        <form action="#" data-th-action="@{/reset}" data-th-object="${model}" method="post">
+                            <button class="btn btn-danger" type="submit">reiniciar</button>
+                        </form>
+                    </td>
                 </tr>
             </tbody>
         </table>
