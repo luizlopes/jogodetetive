@@ -11,6 +11,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import static org.luizlopes.domain.jogador.JogadorStatus.INICIANDO;
+import static org.luizlopes.domain.jogador.JogadorStatus.PRONTO;
 
 @Component
 public class Jogo extends Observable implements Observer {
@@ -39,11 +40,8 @@ public class Jogo extends Observable implements Observer {
             if (jogador.getStatus() == INICIANDO) {
                 setChanged();
                 notifyObservers(jogador);
-            } else {
-                if (jogadores.quantidade() >= QUANTIDADE_JOGADORES) {
-                    jogadores.iniciarPartida();
-                    status = JogoStatus.PARTIDA_INICIADA;
-                }
+            } else if (jogador.getStatus() == PRONTO) {
+                iniciarPartida();
             }
         }
 
@@ -55,6 +53,15 @@ public class Jogo extends Observable implements Observer {
             setChanged();
             notifyObservers(jogador);
         }
+    }
+
+    private void iniciarPartida() {
+        jogadores.iniciarPartida();
+        for (Jogador jogador : jogadores.jogadores()) {
+            setChanged();
+            notifyObservers(jogador);
+        }
+        status = JogoStatus.PARTIDA_INICIADA;
     }
 
     public void cancelarPartida() {

@@ -178,11 +178,23 @@ body {
 
 /* Chat */
 .chat_corpo{
-    width: 100%;
+    width: 70%;
     max-height: 250px;
     height: 250px;
     overflow-y: auto;
-    background: rgba(0, 0, 0, 0.63);
+    background: rgba(40, 96, 144, 1);
+    float: left;
+}
+
+/* Jogadores */
+.chat_jogadores {
+    width: 30%;
+    max-height: 250px;
+    height: 250px;
+    overflow-y: auto;
+    background: rgba(51, 122, 183, 1);
+    color: greenyellow;
+    padding: 5px;
 }
 
 .eu {

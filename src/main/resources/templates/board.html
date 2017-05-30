@@ -982,15 +982,13 @@
                 </div>
             </div>
         </div>
-    </div> <!-- partidacontroller -->
 
-    <div ng-controller="ChatCtrl">
         <!-- Chat Modal -->
         <div class="modal fade in" id="chatModal">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <button type="button" class="close" ng-if="jogando" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                         <h4 class="modal-title">Chat</h4>
                     </div>
                     <div class="modal-body">
@@ -1001,7 +999,11 @@
                                         <span ng-class="mensagem.class">{{message.sender}}:</span>
                                         <span class="chat_texto">{{message.text}}</span>
                                     </div>
-
+                                </div>
+                                <div class="chat_jogadores" id="chat_jogadores">
+                                    <div class="jogadores" ng-repeat="jogador in jogadores">
+                                        <span>{{jogador.usuario}} ({{jogador.personagem.nome}})</span>
+                                    </div>
                                 </div>
                                 <div>
                                     <div class="inner-addon right-addon">
@@ -1013,20 +1015,19 @@
                                                 <button class="btn btn-primary">Enviar</button>
                                             </div>
                                         </form>
-
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-primary" ng-if="jogando" data-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-success" ng-if="mestre" ng-click="IniciarPartida()">Iniciar Partida!</button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div> <!-- partidacontroller -->
 
     <script type="text/javascript" src="/bower_components/jquery/dist/jquery.js"></script>
     <script type="text/javascript" src="/bower_components/switchery/dist/switchery.js"></script>
@@ -1058,8 +1059,6 @@
 
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
-
-    <script type="text/javascript" src="/App/Controllers/ChatController.js"></script>
     <script type="text/javascript" src="/App/Services/WebsocketService.js"></script>
 </body>
 

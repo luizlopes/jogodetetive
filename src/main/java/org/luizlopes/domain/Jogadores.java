@@ -13,7 +13,11 @@ public class Jogadores extends Observable implements Observer {
     private Map<String, Jogador> jogadores = new LinkedHashMap<>();
 
     public void connectUser(String user, Carta personagem, Posicao posicaoInicial, Anotacoes anotacoes) {
-        Jogador jogador = new Jogador(user, personagem, posicaoInicial, anotacoes);
+        boolean mestre = false;
+        if (jogadores.size() == 0) {
+            mestre = true;
+        }
+        Jogador jogador = new Jogador(user, personagem, posicaoInicial, anotacoes, mestre);
         jogador.addObserver(this);
         jogadores.put(user, jogador);
     }
@@ -88,7 +92,9 @@ public class Jogadores extends Observable implements Observer {
     }
 
     public void iniciarPartida() {
+        // sortear cartas crime
         for (Jogador jogador : jogadores.values()) {
+            // sortear cartas jogadores
             jogador.esperarVez();
         }
     }

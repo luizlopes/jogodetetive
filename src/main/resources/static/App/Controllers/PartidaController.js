@@ -6,19 +6,16 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
     $scope.personagensDisponiveis = [];
     $scope.palpite = {};
     $scope.palpiteFeito = {};
-    /*
-    $scope.palpiteFeito = {
-        suspeito:{nome:"Senhor Marinho",src:"/Imagens/padrao/personagens/Senhor_Marinho.png"},
-        arma:{nome:"Pé de Cabra",src:"/Imagens/padrao/armas/pe_de_cabra.png"},
-        local:{nome:"Hotel",src:"/Imagens/padrao/locais/hotel.png"}
-    };
-    */
+    $scope.jogoStatus = "AGUARDAR_INICIO_JOGO"
+    $scope.jogadores = [];
+    $scope.messages = [];
+    $scope.message = "";
+    $scope.max = 140;
+    $scope.mestre = false;
+    $scope.jogando = false;
 
 /*
-<div class="perfil" style="background-image: url({{palpiteFeito.suspeito.src}}) "></div>
-                        <span class="nome">{{palpiteFeito.suspeito.nome}}</span>
     $scope.numeroJogadas = 0;
-
     $scope.personagens = [];
     $scope.caminho = [];
     $scope.JogadorAtual = function(){
@@ -341,6 +338,9 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
     }
 
     //
+    $scope.IniciarPartida = function() {
+        WebsocketService.send_command(aguardarInicioOkResponse(), function() {});
+    }
 
     // ENVIA PERSONAGEM ESCOLHIDO
     $scope.enviarPersonagem = function() {
@@ -362,7 +362,9 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         var command = data[1];
         console.log(command);
         if (command.type == "AGUARDAR_INICIO_JOGO") {
+            $scope.jogoStatus = "AGUARDAR_INICIO_JOGO"
             jogador = command.options;
+            $scope.mestre = jogador.mestre;
             DetetiveApi.setMeuJogador(jogador);
             DetetiveApi.setAnotacoes(jogador.anotacoes);
             DetetiveApi.PegarDadosPartida(1, function(result) {
@@ -371,11 +373,11 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
                 $scope.DefinirEstilo(partida.imagemFundoPath, partida.corDaBorda, partida.barraAnotacao.locais);
                 $scope.PosicionarJogador(partida.meuJogador);
             });
-            WebsocketService.send_command(aguardarInicioOkResponse(), null);
+            $("#chatModal").modal({backdrop: "static"});
         }
 
         if (command.type == "ESPERAR_VEZ") {
-            // console.log(command);
+            $("#chatModal").modal("hide");
         }
 
         if (command.type == "LANCAR_DADOS") {
@@ -401,7 +403,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         console.log(info);
         if (info.type == "PERSONAGENS_DISPONIVEIS") {
             $scope.personagensDisponiveis = info.body;
-            $("#choice-characters-modal").modal("show");
+            $("#choice-characters-modal").modal({backdrop: "static"});
         }
     });
 
@@ -409,6 +411,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
     WebsocketService.receive_game_info().then(null, null, function(info) {
         console.log(info);
         if (info.type == "JOGADORES") {
+            $scope.jogadores = info.body
             DetetiveApi.setJogadores(info.body);
             $scope.PosicionarJogadores(info.body);
         }
@@ -427,6 +430,16 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
             $scope.palpiteFeito = info.body;
             $("#palpiteFeitoModal").modal("show");
         }
+    });
+
+    // CHAT
+    $scope.addMessage = function() {
+        WebsocketService.send_message($scope.message);
+        $scope.message = "";
+    };
+
+    WebsocketService.receive_message().then(null, null, function(message) {
+        $scope.messages.push(message);
     });
 
 }]);

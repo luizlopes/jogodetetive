@@ -14,6 +14,7 @@ import java.util.Observable;
 @EqualsAndHashCode(of = {"usuario", "personagem"})
 public class Jogador extends Observable {
 
+
     @Getter
     private String usuario;
     @Getter
@@ -22,6 +23,8 @@ public class Jogador extends Observable {
     private Anotacoes anotacoes;
     @Getter @Setter
     private Posicao posicao;
+    @Getter
+    private Boolean mestre;
 
     JogadorState state;
     final JogadorState aguardarInicioJogo;
@@ -29,10 +32,15 @@ public class Jogador extends Observable {
     final LancarDados lancarDados;
 
     public Jogador(String usuario, Carta personagem, Posicao posicaoInicial, Anotacoes anotacoes) {
+        this(usuario, personagem, posicaoInicial, anotacoes, false);
+    }
+
+    public Jogador(String usuario, Carta personagem, Posicao posicaoInicial, Anotacoes anotacoes, Boolean mestre) {
         this.usuario = usuario;
         this.personagem = personagem;
         this.posicao = posicaoInicial;
         this.anotacoes = anotacoes;
+        this.mestre = mestre;
 
         // INICIALIZA STATES
         esperarVez = new EsperarVez(this);
