@@ -3,12 +3,15 @@ package org.luizlopes.domain;
 import lombok.Getter;
 import lombok.Setter;
 import org.luizlopes.domain.jogador.Jogador;
+import org.luizlopes.service.CartaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 import static org.luizlopes.domain.jogador.JogadorStatus.INICIANDO;
 import static org.luizlopes.domain.jogador.JogadorStatus.PRONTO;
@@ -21,11 +24,17 @@ public class Jogo extends Observable implements Observer {
     @Autowired
     private Jogadores jogadores;
 
+    @Autowired
+    private CartaService cartaService;
+
     @Getter @Setter
     private Jogador atual;
 
     @Getter
     private JogoStatus status;
+
+    @Getter
+    private CartasCrime cartasCrime;
 
     @PostConstruct
     public void init() {
@@ -56,6 +65,13 @@ public class Jogo extends Observable implements Observer {
     }
 
     private void iniciarPartida() {
+        cartasCrime = new CartasCrime(cartaService.getAllPersonagens(), cartaService.getAllArmas(), cartaService.getAllLocais());
+
+        jogadores.distribuirCartas(
+                cartasCrime.createSorteadorSuspeitos(jogadores.quantidade()),
+                cartasCrime.createSorteadorArmas(jogadores.quantidade()),
+                cartasCrime.createSorteadorLocais(jogadores.quantidade()));
+
         jogadores.iniciarPartida();
         for (Jogador jogador : jogadores.jogadores()) {
             setChanged();

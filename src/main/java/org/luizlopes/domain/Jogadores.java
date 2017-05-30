@@ -92,9 +92,7 @@ public class Jogadores extends Observable implements Observer {
     }
 
     public void iniciarPartida() {
-        // sortear cartas crime
         for (Jogador jogador : jogadores.values()) {
-            // sortear cartas jogadores
             jogador.esperarVez();
         }
     }
@@ -102,6 +100,14 @@ public class Jogadores extends Observable implements Observer {
     public void reiniciar() {
         for (Map.Entry<String, Jogador> entry : jogadores.entrySet()) {
             entry.setValue(null);
+        }
+    }
+
+    public void distribuirCartas(final Sorteador sorteadorSuspeitos, final Sorteador sorteadorArmas, final Sorteador sorteadorLocais) {
+        for (Map.Entry<String, Jogador> entry : jogadores.entrySet()) {
+            entry.getValue().getAnotacoes().cartasSuspeitos(sorteadorSuspeitos.distribuir());
+            entry.getValue().getAnotacoes().cartasArmas(sorteadorArmas.distribuir());
+            entry.getValue().getAnotacoes().cartasLocais(sorteadorLocais.distribuir());
         }
     }
 }

@@ -11,9 +11,8 @@ import org.luizlopes.websocket.model.Info;
 
 import java.util.Observable;
 
-@EqualsAndHashCode(of = {"usuario", "personagem"})
+@EqualsAndHashCode(of = {"usuario", "personagem"}, callSuper = false)
 public class Jogador extends Observable {
-
 
     @Getter
     private String usuario;

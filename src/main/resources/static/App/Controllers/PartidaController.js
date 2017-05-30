@@ -360,11 +360,17 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
     WebsocketService.receive_command().then(null, null, function(data) {
         var service = data[0];
         var command = data[1];
-        console.log(command);
+
         if (command.type == "AGUARDAR_INICIO_JOGO") {
-            $scope.jogoStatus = "AGUARDAR_INICIO_JOGO"
             jogador = command.options;
+            $scope.jogoStatus = "AGUARDAR_INICIO_JOGO"
             $scope.mestre = jogador.mestre;
+            $("#chatModal").modal({backdrop: "static"});
+        }
+
+        if (command.type == "ESPERAR_VEZ") {
+            $("#chatModal").modal("hide");
+            jogador = command.options;
             DetetiveApi.setMeuJogador(jogador);
             DetetiveApi.setAnotacoes(jogador.anotacoes);
             DetetiveApi.PegarDadosPartida(1, function(result) {
@@ -373,11 +379,6 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
                 $scope.DefinirEstilo(partida.imagemFundoPath, partida.corDaBorda, partida.barraAnotacao.locais);
                 $scope.PosicionarJogador(partida.meuJogador);
             });
-            $("#chatModal").modal({backdrop: "static"});
-        }
-
-        if (command.type == "ESPERAR_VEZ") {
-            $("#chatModal").modal("hide");
         }
 
         if (command.type == "LANCAR_DADOS") {
@@ -400,7 +401,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
 
     // USER INFO
     WebsocketService.receive_user_info().then(null, null, function(info) {
-        console.log(info);
+//        console.log(info);
         if (info.type == "PERSONAGENS_DISPONIVEIS") {
             $scope.personagensDisponiveis = info.body;
             $("#choice-characters-modal").modal({backdrop: "static"});
@@ -409,7 +410,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
 
     // GAME INFO
     WebsocketService.receive_game_info().then(null, null, function(info) {
-        console.log(info);
+//        console.log(info);
         if (info.type == "JOGADORES") {
             $scope.jogadores = info.body
             DetetiveApi.setJogadores(info.body);
