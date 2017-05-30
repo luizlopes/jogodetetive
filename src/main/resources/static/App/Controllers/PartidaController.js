@@ -369,17 +369,19 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         }
 
         if (command.type == "ESPERAR_VEZ") {
-            $("#chatModal").modal("hide");
-            $scope.jogando = true;
-            jogador = command.options;
-            DetetiveApi.setMeuJogador(jogador);
-            DetetiveApi.setAnotacoes(jogador.anotacoes);
-            DetetiveApi.PegarDadosPartida(1, function(result) {
-                var partida = result;
-                $scope.partida = partida;
-                $scope.DefinirEstilo(partida.imagemFundoPath, partida.corDaBorda, partida.barraAnotacao.locais);
-                $scope.PosicionarJogador(partida.meuJogador);
-            });
+            if (!$scope.jogando) {
+                $("#chatModal").modal("hide");
+                $scope.jogando = true;
+                jogador = command.options;
+                DetetiveApi.setMeuJogador(jogador);
+                DetetiveApi.setAnotacoes(jogador.anotacoes);
+                DetetiveApi.PegarDadosPartida(1, function(result) {
+                    var partida = result;
+                    $scope.partida = partida;
+                    $scope.DefinirEstilo(partida.imagemFundoPath, partida.corDaBorda, partida.barraAnotacao.locais);
+                    $scope.PosicionarJogador(partida.meuJogador);
+                });
+            }
         }
 
         if (command.type == "LANCAR_DADOS") {
