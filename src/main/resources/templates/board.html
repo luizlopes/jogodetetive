@@ -1021,8 +1021,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" ng-if="jogando" data-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-success" ng-if="mestre" ng-click="IniciarPartida()">Iniciar Partida!</button>
+                        <button type="button" class="btn btn-success" ng-if="(mestre==true &amp;&amp; jogando==false)" ng-click="IniciarPartida()">Iniciar Partida!</button>
                     </div>
                 </div>
             </div>

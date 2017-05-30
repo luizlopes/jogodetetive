@@ -370,6 +370,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
 
         if (command.type == "ESPERAR_VEZ") {
             $("#chatModal").modal("hide");
+            $scope.jogando = true;
             jogador = command.options;
             DetetiveApi.setMeuJogador(jogador);
             DetetiveApi.setAnotacoes(jogador.anotacoes);
