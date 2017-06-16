@@ -76,11 +76,9 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
-                                <div class="carta local carta_sombra click" ng-repeat="item in partida.barraAnotacao.locais" ng-click="setPalpite('local',item)"
-                                ng-class="{'carta_ativa': palpite.local == item }"
-                                    ng-if="!item.selecionado">
-                                    <div class="perfil" style="background-image: url({{item.carta.src}}) "></div>
-                                    <span class="nome">{{item.carta.nome}}</span>
+                                <div class="carta local carta_sombra click" ng-click="setPalpite('local', carta_comodo_jogador)">
+                                    <div class="perfil" style="background-image: url({{carta_comodo_jogador.carta.src}}) "></div>
+                                    <span class="nome">{{carta_comodo_jogador.carta.nome}}</span>
                                 </div>
                             </div>
                         </div>

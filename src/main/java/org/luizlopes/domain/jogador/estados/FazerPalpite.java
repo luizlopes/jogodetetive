@@ -23,6 +23,7 @@ public class FazerPalpite implements JogadorState {
     public Command sendCommand() {
         Command command = new Command();
         command.setType(CommandType.FAZER_PALPITE);
+        command.setOptions(jogador.getPosicao());
         return command;
     }
 
@@ -30,8 +31,7 @@ public class FazerPalpite implements JogadorState {
     public JogadorState receiveReponse(Command response) {
         Palpite palpite = PalpiteMapper.parse((Map) response.getResponse());
         palpite.setJogador(jogador);
-        //return new VerCartas(jogador, palpite);
-        return new EsperarVez(jogador);
+        return new VerCartas(jogador, palpite);
     }
 
     @Override

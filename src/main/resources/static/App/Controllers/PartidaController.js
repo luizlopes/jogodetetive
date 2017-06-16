@@ -14,6 +14,8 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
     $scope.mestre = false;
     $scope.jogando = false;
 
+    var local_carta = [];
+
 /*
     $scope.numeroJogadas = 0;
     $scope.personagens = [];
@@ -36,6 +38,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         conteudo.push(" .item_tab {border: 1px solid " + corBordas + ";}");
         for (var i = 1; i <= locais.length; i++) {
             conteudo.push(' .local' + i + ' { background-image: url("' + locais[i - 1].carta.src + '"); } ');
+            local_carta.push({ local: "local"+i, carta: locais[i - 1].carta }); //locais[i - 1].carta;
         }
         $('#styleDynamic').html(conteudo.join(''));
     }
@@ -236,12 +239,17 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         
     }
 
-    $scope.AbrirModalPalpite = function() {
+    $scope.AbrirModalPalpite = function(posicao) {
+        for (var i = 0; i <= local_carta.length -1; i++) {
+            if (local_carta[i].local == posicao.comodo) {
+                $scope.carta_comodo_jogador = {carta: local_carta[i].carta};
+            }
+        }
         $('#palpiteModal').show();
         $scope.palpite = {};
     }
 
-    $scope.setPalpite = function(nome,carta) {
+    $scope.setPalpite = function(nome, carta) {
         $scope.palpite[nome] = carta;
     }
 
@@ -398,7 +406,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
             });
         }
         if (command.type == "FAZER_PALPITE") {
-            $scope.AbrirModalPalpite();
+            $scope.AbrirModalPalpite(command.options);
         }
     });
 
