@@ -1,10 +1,12 @@
 package org.luizlopes.domain.jogador;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.luizlopes.domain.Anotacoes;
 import org.luizlopes.domain.Carta;
+import org.luizlopes.domain.Palpite;
 import org.luizlopes.domain.jogador.estados.*;
 import org.luizlopes.websocket.model.Command;
 import org.luizlopes.websocket.model.Info;
@@ -18,7 +20,7 @@ public class Jogador extends Observable {
     private String usuario;
     @Getter
     private Carta personagem;
-    @Getter @Setter
+    @Getter @Setter @JsonIgnore
     private Anotacoes anotacoes;
     @Getter @Setter
     private Posicao posicao;
@@ -26,9 +28,6 @@ public class Jogador extends Observable {
     private Boolean mestre;
 
     JogadorState state;
-    final JogadorState aguardarInicioJogo;
-    final JogadorState esperarVez;
-    final LancarDados lancarDados;
 
     public Jogador(String usuario, Carta personagem, Posicao posicaoInicial, Anotacoes anotacoes) {
         this(usuario, personagem, posicaoInicial, anotacoes, false);
@@ -41,13 +40,7 @@ public class Jogador extends Observable {
         this.anotacoes = anotacoes;
         this.mestre = mestre;
 
-        // INICIALIZA STATES
-        esperarVez = new EsperarVez(this);
-        aguardarInicioJogo = new AguardarInicio(this);
-        lancarDados = new LancarDados(this);
-        //
-
-        changeState(aguardarInicioJogo);
+        changeState(new AguardarInicio(this));
     }
 
     public int getId() {
@@ -55,7 +48,7 @@ public class Jogador extends Observable {
     }
 
     public void esperarVez() {
-        state = esperarVez;
+        state = new EsperarVez(this);
     }
 
     public Command sendCommand() {
@@ -70,8 +63,16 @@ public class Jogador extends Observable {
         return state.sendInfo();
     }
 
-    public void lancarDados() {
-        changeState(lancarDados);
+    public void lancarDados(Contexto contexto) {
+        changeState(new LancarDados(contexto));
+    }
+
+    public void solicitarExibirCartas(Contexto contexto) {
+        changeState(new SolicitarExibirCarta(contexto));
+    }
+
+    public void exibirCarta(Contexto contexto, Carta cartaASerExibida) {
+        changeState(new VerCarta(contexto, cartaASerExibida));
     }
 
     public JogadorStatus getStatus() {
@@ -84,5 +85,13 @@ public class Jogador extends Observable {
             setChanged();
             notifyObservers(this);
         }
+    }
+
+    public int possuiCartas(Palpite palpite) {
+        return anotacoes.possuiCartas(palpite);
+    }
+
+    public Contexto contexto() {
+        return state.getContexto();
     }
 }

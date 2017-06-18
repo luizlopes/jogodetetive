@@ -49,7 +49,6 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                         <h4 class="modal-title">Palpite</h4>
                     </div>
                     <div class="modal-body">
@@ -76,7 +75,8 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
-                                <div class="carta local carta_sombra click" ng-click="setPalpite('local', carta_comodo_jogador)">
+                                <div class="carta local carta_sombra click" ng-click="setPalpite('local', carta_comodo_jogador)"
+                                     ng-class="{'carta_ativa': palpite.local == carta_comodo_jogador }">
                                     <div class="perfil" style="background-image: url({{carta_comodo_jogador.carta.src}}) "></div>
                                     <span class="nome">{{carta_comodo_jogador.carta.nome}}</span>
                                 </div>
@@ -936,22 +936,6 @@
             </div>
         </div>
 
-        <!-- Partida rodando Modal -->
-        <div class="modal fade" id="partida-rodando-modal" role="dialog">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">ESTÁ VALENDO!</h4>
-                    </div>
-                    <div class="modal-body">
-                        O jogo começou! Fique atento!
-                    </div>
-                    <div class="modal-footer">
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- JOGADOR FEZ PALPITE MODAL  -->
         <div class="modal fade" id="palpiteFeitoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
@@ -961,21 +945,93 @@
                         <h4 class="modal-title" id="myModalLabel">Palpite feito por {{palpiteFeito.jogador.personagem.nome}} ( {{palpiteFeito.jogador.usuario}} )</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="carta carta_sombra personagem" >
-                            <div class="perfil" style="background-image: url({{palpiteFeito.suspeito.src}}) "></div>
-                            <span class="nome">{{palpiteFeito.suspeito.nome}}</span>
-                        </div>
-                        <div class="carta carta_sombra arma">
-                            <div class="perfil" style="background-image: url({{palpiteFeito.arma.src}}) "></div>
-                            <span class="nome">{{palpiteFeito.arma.nome}}</span>
-                        </div>
-                        <div class="carta carta_sombra local">
-                            <div class="perfil" style="background-image: url({{palpiteFeito.local.src}}) "></div>
-                            <span class="nome">{{palpiteFeito.local.nome}}</span>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="carta carta_sombra personagem" >
+                                    <div class="perfil" style="background-image: url({{palpiteFeito.suspeito.src}}) "></div>
+                                    <span class="nome">{{palpiteFeito.suspeito.nome}}</span>
+                                </div>
+                                <div class="carta carta_sombra arma">
+                                    <div class="perfil" style="background-image: url({{palpiteFeito.arma.src}}) "></div>
+                                    <span class="nome">{{palpiteFeito.arma.nome}}</span>
+                                </div>
+                                <div class="carta carta_sombra local">
+                                    <div class="perfil" style="background-image: url({{palpiteFeito.local.src}}) "></div>
+                                    <span class="nome">{{palpiteFeito.local.nome}}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SELECIONA CARTA PARA EXIBIR AO OUTRO JOGADOR MODAL  -->
+        <div class="modal fade" id="selecionarCartaModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Selecione uma carta para exibir</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="carta carta_sombra personagem" ng-repeat="item in partida.barraAnotacao.suspeitos"
+                                         ng-if="item.minhaCarta &amp;&amp; item.carta.nome == palpiteFeito.suspeito.nome"
+                                         ng-click="setCartaSelecionada(palpiteFeito.suspeito)"
+                                         ng-class="{'carta_ativa': cartaSelecionada == palpiteFeito.suspeito }">
+                                        <div class="perfil" style="background-image: url({{palpiteFeito.suspeito.src}}) "></div>
+                                        <span class="nome">{{palpiteFeito.suspeito.nome}}</span>
+                                    </div>
+                                    <div class="carta carta_sombra arma" ng-repeat="item in partida.barraAnotacao.armas"
+                                         ng-if="item.minhaCarta &amp;&amp; item.carta.nome == palpiteFeito.arma.nome"
+                                         ng-click="setCartaSelecionada(palpiteFeito.arma)"
+                                         ng-class="{'carta_ativa': cartaSelecionada == palpiteFeito.arma }">
+                                        <div class="perfil" style="background-image: url({{palpiteFeito.arma.src}}) "></div>
+                                        <span class="nome">{{palpiteFeito.arma.nome}}</span>
+                                    </div>
+                                    <div class="carta carta_sombra local" ng-repeat="item in partida.barraAnotacao.locais"
+                                         ng-if="item.minhaCarta &amp;&amp; item.carta.nome == palpiteFeito.local.nome"
+                                         ng-click="setCartaSelecionada(palpiteFeito.local)"
+                                         ng-class="{'carta_ativa': cartaSelecionada == palpiteFeito.local }">
+                                        <div class="perfil" style="background-image: url({{palpiteFeito.local.src}}) "></div>
+                                        <span class="nome">{{palpiteFeito.local.nome}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal"
+                                ng-disabled="desabilitarExibirCarta()" ng-click="enviarCartaSelecionada()">Exibir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- JOGADOR VE A CARTA SELECIONADA POR OUTRO JOGADOR -->
+        <div class="modal fade" id="exibeCartaModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Registre esta carta</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="carta carta_sombra local">
+                                    <div class="perfil" style="background-image: url({{cartaExibida.src}})"></div>
+                                    <span class="nome">{{cartaExibida.nome}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="enviarCartaVistaOk()">Fechar</button>
                     </div>
                 </div>
             </div>

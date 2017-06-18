@@ -1,48 +1,48 @@
 package org.luizlopes.domain.jogador.estados;
 
-import org.luizlopes.domain.Palpite;
+import lombok.Getter;
+import org.luizlopes.domain.Carta;
 import org.luizlopes.domain.jogador.Contexto;
 import org.luizlopes.domain.jogador.JogadorStatus;
-import org.luizlopes.domain.mapper.PalpiteMapper;
+import org.luizlopes.domain.mapper.CartaMapper;
 import org.luizlopes.websocket.model.Command;
 import org.luizlopes.websocket.model.CommandType;
 import org.luizlopes.websocket.model.Info;
-import org.luizlopes.websocket.model.InfoType;
 
 import java.util.Map;
 
-public class FazerPalpite implements JogadorState {
+@Getter
+public class SolicitarExibirCarta implements JogadorState {
+    private final Contexto contexto;
 
-    private Contexto contexto;
-
-    public FazerPalpite(Contexto contexto) {
+    public SolicitarExibirCarta(final Contexto contexto) {
         this.contexto = contexto;
     }
 
     @Override
     public Command sendCommand() {
         Command command = new Command();
-        command.setType(CommandType.FAZER_PALPITE);
-        command.setOptions(contexto.getAtual().getPosicao());
+        command.setType(CommandType.EXIBIR_CARTA);
+        command.setOptions(contexto.getPalpite());
         return command;
     }
 
     @Override
     public JogadorState receiveReponse(Command response) {
-        Palpite palpite = PalpiteMapper.parse((Map) response.getResponse());
-        palpite.setJogador(contexto.getAtual());
-        contexto.setPalpite(palpite);
-        return new EsperarExibirCarta(contexto);
+        Carta cartaASerExibida = CartaMapper.parse(((Map)((Map)response.getResponse()).get("carta")));
+        contexto.exibirCarta(cartaASerExibida);
+        return new EsperarVezSilencio(contexto.getAtual());
     }
 
     @Override
     public Info sendInfo() {
-        return new Info(contexto.getAtual(), InfoType.ULTIMO_JOGADOR);
+        // TODO Avisar outros jogadores quem está exibindo as cartas
+        return null;
     }
 
     @Override
     public JogadorStatus status() {
-        return JogadorStatus.FAZENDO_PALPITE;
+        return JogadorStatus.EXIBINDO_CARTA;
     }
 
     @Override

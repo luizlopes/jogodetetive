@@ -2,16 +2,15 @@ package org.luizlopes.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.luizlopes.domain.jogador.Contexto;
 import org.luizlopes.domain.jogador.Jogador;
 import org.luizlopes.service.CartaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Random;
 
 import static org.luizlopes.domain.jogador.JogadorStatus.INICIANDO;
 import static org.luizlopes.domain.jogador.JogadorStatus.PRONTO;
@@ -55,13 +54,21 @@ public class Jogo extends Observable implements Observer {
         }
 
         if (status == JogoStatus.PARTIDA_INICIADA) {
+            if (atual != null && atual.contexto() != null && atual.contexto().isProntoParaSolicitar()) {
+                atual.contexto().solicitarExibirCarta();
+            }
+
             if (jogadores.todosEsperando()) {
                 atual = jogadores.proximo(atual);
-                atual.lancarDados();
+                atual.lancarDados(criaContexto());
             }
             setChanged();
             notifyObservers(jogador);
         }
+    }
+
+    private Contexto criaContexto() {
+        return new Contexto(jogadores, atual);
     }
 
     private void iniciarPartida() {

@@ -45,6 +45,10 @@ detetiveApp.factory('DetetiveApi',[function(){
         partida.jogadores = jogadores;
     }
 
+    app.getMeuJogador = function() {
+        return (partida.meuJogador);
+    }
+
     return app;
 
 }])

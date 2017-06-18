@@ -1,5 +1,6 @@
 package org.luizlopes.domain.jogador.estados;
 
+import org.luizlopes.domain.jogador.Contexto;
 import org.luizlopes.domain.jogador.Jogador;
 import org.luizlopes.domain.jogador.JogadorStatus;
 import org.luizlopes.websocket.model.Command;
@@ -12,7 +13,7 @@ public class EsperarVez implements JogadorState {
 
     private Jogador jogador;
 
-    public EsperarVez(Jogador jogador) {
+    public EsperarVez(final Jogador jogador) {
         this.jogador = jogador;
     }
 
@@ -20,7 +21,8 @@ public class EsperarVez implements JogadorState {
     public Command sendCommand() {
         Command command = new Command();
         command.setType(ESPERAR_VEZ);
-        command.setOptions(jogador);
+        Object[] array = {jogador, jogador.getAnotacoes()};
+        command.setOptions(array);
         return command;
     }
 
@@ -39,4 +41,8 @@ public class EsperarVez implements JogadorState {
         return JogadorStatus.ESPERANDO;
     }
 
+    @Override
+    public Contexto getContexto() {
+        return null;
+    }
 }

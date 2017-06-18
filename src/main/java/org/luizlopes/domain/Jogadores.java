@@ -50,7 +50,6 @@ public class Jogadores extends Observable implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-
         setChanged();
         notifyObservers(arg);
     }

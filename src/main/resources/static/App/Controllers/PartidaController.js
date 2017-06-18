@@ -6,6 +6,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
     $scope.personagensDisponiveis = [];
     $scope.palpite = {};
     $scope.palpiteFeito = {};
+    $scope.cartaSelecionada = {};
     $scope.jogoStatus = "AGUARDAR_INICIO_JOGO"
     $scope.jogadores = [];
     $scope.messages = [];
@@ -16,19 +17,6 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
 
     var local_carta = [];
 
-/*
-    $scope.numeroJogadas = 0;
-    $scope.personagens = [];
-    $scope.caminho = [];
-    $scope.JogadorAtual = function(){
-        return $scope.partida.jogadores[$scope.indiceJogadorAtual];
-    }
-*/
-/*
-    $scope.EnviarPalpite = function() {
-        $('#palpiteModal').hide();
-    }
-*/
     $scope.DefinirEstilo = function(imagemDoFundo, corBordas, locais) {
         var conteudo = new Array();
         conteudo.push('#divTabuleiro {');
@@ -61,12 +49,6 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         }
     }
 
-/*
-    $scope.MoverListaJogadores = function(jogadores){
-        var jogador = jogadores.shift();
-        $scope.partida.jogadores.push(jogador);
-    }
-*/
     $scope.VerCarta = function(id, tipo) {
         var nomeObj = ['suspeitos','armas','locais'];
         var itensAnotacao = $scope.partida.barraAnotacao[nomeObj[tipo - 1]];
@@ -91,16 +73,6 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
          $scope.RemoverDestaqueJogador();
          $('#peao_'+jogadorAtual.id).parent().addClass('jogador_ativo');
     }
-
-/*
-    $scope.ProximaJogada = function(){
-        $scope.MoverListaJogadores();
-        $scope.DestacarJogadorAtual();       
-        $scope.RemoverAcaoAndar();   
-        $scope.AbrirModalLancarDados();
-        $scope.IniciarTimer();
-    }
-*/
 
     $scope.AbrirModalLancarDados = function(){
         $('.lancar_dados').show();        
@@ -245,7 +217,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
                 $scope.carta_comodo_jogador = {carta: local_carta[i].carta};
             }
         }
-        $('#palpiteModal').show();
+        $('#palpiteModal').modal({backdrop: "static"});
         $scope.palpite = {};
     }
 
@@ -259,6 +231,14 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
             $scope.palpite.arma == undefined ||
             $scope.palpite.local == undefined 
         );
+    }
+
+    $scope.desabilitarExibirCarta = function() {
+        return ($scope.cartaSelecionada.nome == undefined);
+    }
+
+    $scope.setCartaSelecionada = function(carta) {
+        $scope.cartaSelecionada = carta;
     }
 
     $scope.PosicaoEhPorta = function(jogadorAtual, numeroJogadas, div, callback) {
@@ -345,6 +325,16 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         return JSON.stringify({ type: 'FAZER_PALPITE', response: { palpite }});
     }
 
+    // ENVIAR CARTA SELECIONADA
+    enviarCartaSelecionadaResponse = function(carta) {
+        return JSON.stringify({ type: 'EXIBIR_CARTA', response: { carta }});
+    }
+
+    // ENVIAR CARTA VISTA OK
+    enviarCartaVistaOkResponse = function() {
+        return JSON.stringify({ type: 'VER_CARTA', response: "OK" });
+    }
+
     //
     $scope.IniciarPartida = function() {
         WebsocketService.send_command(aguardarInicioOkResponse(), function() {});
@@ -360,7 +350,21 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
     // ENVIA PALPITE
     $scope.enviarPalpite = function() {
         WebsocketService.send_command(enviarPalpiteResponse($scope.palpite), function() {
-            $('#palpiteModal').hide();
+            $('#palpiteModal').modal("hide");
+        });
+    }
+
+    // ENVIA CARTA SELECIONADA
+    $scope.enviarCartaSelecionada = function() {
+        WebsocketService.send_command(enviarCartaSelecionadaResponse($scope.cartaSelecionada), function() {
+            $('#selecionarCartaModal').modal("hide");
+        });
+    }
+
+    // ENVIA OK PARA CARTA VISTA
+    $scope.enviarCartaVistaOk = function() {
+        WebsocketService.send_command(enviarCartaVistaOkResponse(), function() {
+            $('#exibeCartaModal').modal("hide");
         });
     }
 
@@ -376,13 +380,14 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
             $("#chatModal").modal({backdrop: "static"});
         }
 
-        if (command.type == "ESPERAR_VEZ") {
+            if (command.type == "ESPERAR_VEZ") {
             if (!$scope.jogando) {
                 $("#chatModal").modal("hide");
                 $scope.jogando = true;
-                jogador = command.options;
+                jogador = command.options[0];
+                anotacoes = command.options[1];
                 DetetiveApi.setMeuJogador(jogador);
-                DetetiveApi.setAnotacoes(jogador.anotacoes);
+                DetetiveApi.setAnotacoes(anotacoes);
                 DetetiveApi.PegarDadosPartida(1, function(result) {
                     var partida = result;
                     $scope.partida = partida;
@@ -397,7 +402,6 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         }
 
         if (command.type == "MOVER_JOGADOR") {
-            // alert("mover peca " + command.options + " casas.");
             $scope.numeroJogadas = command.options;
             $scope.DestacarJogadorAtual($scope.partida.meuJogador);
             $scope.MostrarCasasDisponiveisParaAndar($scope.partida.meuJogador.posicao.posicao);
@@ -408,11 +412,18 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         if (command.type == "FAZER_PALPITE") {
             $scope.AbrirModalPalpite(command.options);
         }
+        if (command.type == "EXIBIR_CARTA") {
+            $scope.palpiteFeito = command.options;
+            $("#selecionarCartaModal").modal({backdrop: "static"});
+        }
+        if (command.type == "VER_CARTA") {
+            $scope.cartaExibida = command.options;
+            $("#exibeCartaModal").modal({backdrop: "static"});
+        }
     });
 
     // USER INFO
     WebsocketService.receive_user_info().then(null, null, function(info) {
-//        console.log(info);
         if (info.type == "PERSONAGENS_DISPONIVEIS") {
             $scope.personagensDisponiveis = info.body;
             $("#choice-characters-modal").modal({backdrop: "static"});
@@ -421,7 +432,6 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
 
     // GAME INFO
     WebsocketService.receive_game_info().then(null, null, function(info) {
-//        console.log(info);
         if (info.type == "JOGADORES") {
             $scope.jogadores = info.body
             DetetiveApi.setJogadores(info.body);
@@ -440,7 +450,9 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         }
         if (info.type == "PALPITE_FEITO") {
             $scope.palpiteFeito = info.body;
-            $("#palpiteFeitoModal").modal("show");
+            if ($scope.palpiteFeito.jogador.usuario != DetetiveApi.getMeuJogador().usuario) {
+                $("#palpiteFeitoModal").modal("show");
+            }
         }
     });
 

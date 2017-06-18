@@ -1,5 +1,6 @@
 package org.luizlopes.domain.jogador.estados;
 
+import org.luizlopes.domain.jogador.Contexto;
 import org.luizlopes.domain.jogador.Jogador;
 import org.luizlopes.domain.jogador.JogadorStatus;
 import org.luizlopes.websocket.model.Command;
@@ -37,5 +38,10 @@ public class AguardarInicio implements JogadorState {
     @Override
     public JogadorStatus status() {
         return JogadorStatus.INICIANDO;
+    }
+
+    @Override
+    public Contexto getContexto() {
+        return null;
     }
 }
