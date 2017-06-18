@@ -10,7 +10,6 @@ public class Anotacao implements Serializable {
 
     private Carta carta;
     private Boolean selecionada;
-    @Getter
     private Boolean minhaCarta;
 
     public Anotacao(Carta carta, boolean selecionada) {

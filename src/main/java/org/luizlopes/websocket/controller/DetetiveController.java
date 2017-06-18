@@ -59,7 +59,7 @@ public class DetetiveController implements Observer {
             } else {
                 Jogador jogador = jogadores.getByUsuario(principal.getName());
                 jogador.receiveCommand(command);
-//                sendInfo(jogador);
+                sendInfo(jogador);
             }
         }
     }
