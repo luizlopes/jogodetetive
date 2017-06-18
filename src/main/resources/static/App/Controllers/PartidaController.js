@@ -394,6 +394,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
     $scope.enviarPalpite = function() {
         WebsocketService.send_command(enviarPalpiteResponse($scope.palpite), function() {
             $('#palpiteModal').modal("hide");
+            $("#palpiteAguardarRetornoModal").modal({backdrop: "static"});
         });
     }
 
@@ -419,6 +420,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         });
     }
 
+    // ENVIA OK PARA FORA DA PARTIDA
     $scope.enviarForaDaPartidaOk = function() {
         WebsocketService.send_command(enviarErrouAcusacaoOkResponse(), function() {});
     }
@@ -481,6 +483,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
 
         if (command.type == "VER_CARTA") {
             $scope.cartaExibida = command.options;
+            $("#palpiteAguardarRetornoModal").modal("hide");
             $("#exibeCartaModal").modal({backdrop: "static"});
         }
 
