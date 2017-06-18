@@ -9,7 +9,11 @@ import java.util.Map;
 public class PalpiteMapper {
 
     public static Palpite parse(Map map) {
-        Map palpite = (Map) map.get("palpite");
+        return PalpiteMapper.parse(map, "palpite");
+    }
+
+    public static Palpite parse(Map map, String root) {
+        Map palpite = (Map) map.get(root);
 
         Map cartaSuspeitoMap = (Map) ((Map) palpite.get("suspeito")).get("carta");
         Carta suspeito = CartaMapper.parse(cartaSuspeitoMap);
@@ -21,6 +25,5 @@ public class PalpiteMapper {
         Carta local = CartaMapper.parse(localArmaMap);
 
         return new Palpite(suspeito, arma, local);
-
     }
 }

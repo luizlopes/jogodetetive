@@ -1,10 +1,14 @@
 package org.luizlopes.domain.jogador.estados;
 
+import org.luizlopes.domain.Palpite;
 import org.luizlopes.domain.jogador.Contexto;
 import org.luizlopes.domain.jogador.JogadorStatus;
+import org.luizlopes.domain.mapper.PalpiteMapper;
 import org.luizlopes.websocket.model.Command;
 import org.luizlopes.websocket.model.CommandType;
 import org.luizlopes.websocket.model.Info;
+
+import java.util.Map;
 
 public class FazerAcusacao implements JogadorState {
 
@@ -23,7 +27,10 @@ public class FazerAcusacao implements JogadorState {
 
     @Override
     public JogadorState receiveReponse(Command response) {
-        return null;
+        Palpite palpite = PalpiteMapper.parse((Map) response.getResponse(), "acusacao");
+        palpite.setJogador(contexto.getAtual());
+        contexto.setPalpite(palpite);
+        return new EsperarApurarAcusacao(contexto);
     }
 
     @Override

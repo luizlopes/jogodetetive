@@ -54,16 +54,29 @@ public class Jogo extends Observable implements Observer {
         }
 
         if (status == JogoStatus.PARTIDA_INICIADA) {
-            if (atual != null && atual.contexto() != null && atual.contexto().isProntoParaSolicitar()) {
-                atual.contexto().solicitarExibirCarta();
-            }
-
             if (jogadores.todosEsperando()) {
                 atual = jogadores.proximo(atual);
                 atual.escolherJogada(criaContexto());
             }
-            setChanged();
-            notifyObservers(jogador);
+
+            if (atual != null && atual.contexto() != null && atual.contexto().isProntoParaSolicitar()) {
+                atual.contexto().solicitarExibirCarta();
+            }
+
+            if (atual != null && atual.contexto() != null && atual.contexto().isFezAcusacao()) {
+                Palpite palpite = atual.contexto().getPalpite();
+                if (cartasCrime.isAcusacaoCorreta(palpite)) {
+                    atual.jogadorAcertouAcusacao(atual.contexto());
+                    encerrarPartida();
+                } else {
+                    atual.jogadorErrouAcusacao(atual.contexto());
+                }
+            }
+
+            if (jogadores.existeJogadorAtivo()) {
+                setChanged();
+                notifyObservers(jogador);
+            }
         }
     }
 
@@ -85,6 +98,11 @@ public class Jogo extends Observable implements Observer {
             notifyObservers(jogador);
         }
         status = JogoStatus.PARTIDA_INICIADA;
+    }
+
+    private void encerrarPartida() {
+//        jogadores.encerrarPartida();
+        status = JogoStatus.PARTIDA_ENCERRADA;
     }
 
     public void cancelarPartida() {

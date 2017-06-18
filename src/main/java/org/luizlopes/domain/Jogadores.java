@@ -57,12 +57,23 @@ public class Jogadores extends Observable implements Observer {
     public boolean todosEsperando() {
         boolean todosEsperando = true;
         for (Jogador j : jogadores.values()) {
-            if (j.getStatus() != JogadorStatus.ESPERANDO) {
+            if (j.getStatus() != JogadorStatus.ESPERANDO && j.getStatus() != JogadorStatus.FORA_DA_PARTIDA) {
                 todosEsperando = false;
                 break;
             }
         }
         return todosEsperando;
+    }
+
+    public boolean existeJogadorAtivo() {
+        boolean existeJogadorAtivo = false;
+        for (Jogador j : jogadores.values()) {
+            if (j.getStatus() != JogadorStatus.FORA_DA_PARTIDA) {
+                existeJogadorAtivo = true;
+                break;
+            }
+        }
+        return existeJogadorAtivo;
     }
 
     public Jogador proximo(Jogador atual) {
@@ -97,8 +108,15 @@ public class Jogadores extends Observable implements Observer {
     }
 
     public void reiniciar() {
-        for (Map.Entry<String, Jogador> entry : jogadores.entrySet()) {
-            entry.setValue(null);
+        jogadores.clear();
+//        for (Map.Entry<String, Jogador> entry : jogadores.entrySet()) {
+//            entry.setValue(null);
+//        }
+    }
+
+    public void encerrarPartida() {
+        for (Jogador jogador : jogadores.values()) {
+            jogador.fimDeJogo();
         }
     }
 
@@ -109,4 +127,6 @@ public class Jogadores extends Observable implements Observer {
             entry.getValue().getAnotacoes().cartasLocais(sorteadorLocais.distribuir());
         }
     }
+
+
 }

@@ -43,4 +43,10 @@ public class CartasCrime {
     public Sorteador createSorteadorLocais(int quantidade) {
         return new Sorteador(quantidade, locais);
     }
+
+    public Boolean isAcusacaoCorreta(Palpite palpite) {
+        return personagemCrime.equals(palpite.getSuspeito()) &&
+                armaCrime.equals(palpite.getArma()) &&
+                localCrime.equals(palpite.getLocal());
+    }
 }

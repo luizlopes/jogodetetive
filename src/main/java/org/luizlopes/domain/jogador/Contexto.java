@@ -6,7 +6,9 @@ import org.luizlopes.domain.Carta;
 import org.luizlopes.domain.Jogadores;
 import org.luizlopes.domain.Palpite;
 
+import static org.luizlopes.domain.jogador.JogadorStatus.ESPERANDO_APURAR_ACUSACAO;
 import static org.luizlopes.domain.jogador.JogadorStatus.ESPERANDO_EXIBIR_CARTA;
+import static org.luizlopes.domain.jogador.JogadorStatus.FAZENDO_ACUSACAO;
 
 @Getter
 public class Contexto {
@@ -49,5 +51,9 @@ public class Contexto {
 
     public boolean isProntoParaSolicitar() {
         return atual.getStatus() == ESPERANDO_EXIBIR_CARTA && !solicitou;
+    }
+
+    public boolean isFezAcusacao() {
+        return atual.getStatus() == ESPERANDO_APURAR_ACUSACAO;
     }
 }

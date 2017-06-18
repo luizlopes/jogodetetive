@@ -57,7 +57,7 @@
                                 <div class="carta carta_sombra personagem click"
                                     ng-class="{'carta_ativa': palpite.suspeito == item }"
                                     ng-repeat="item in partida.barraAnotacao.suspeitos" ng-click="setPalpite('suspeito',item)"
-                                    ng-if="!item.selecionado">
+                                    ng-if="!item.selecionada">
                                     <div class="perfil" style="background-image: url({{item.carta.src}}) "></div>
                                     <span class="nome">{{item.carta.nome}}</span>
                                 </div>
@@ -67,7 +67,7 @@
                             <div class="col-lg-12">
                                 <div class="carta arma carta_sombra click" ng-repeat="item in partida.barraAnotacao.armas" ng-click="setPalpite('arma',item)"
                                     ng-class="{'carta_ativa': palpite.arma == item }"
-                                    ng-if="!item.selecionado">
+                                    ng-if="!item.selecionada">
                                     <div class="perfil" style="background-image: url({{item.carta.src}}) "></div>
                                     <span class="nome">{{item.carta.nome}}</span>
                                 </div>
@@ -86,6 +86,54 @@
                     <div class="modal-footer">
                         <button class="btn btn-success" ng-disabled="DesabilitarPalpite()" ng-click="enviarPalpite()">
                              Enviar Palpite
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACUSACAO -->
+        <div class="modal fade in" id="acusacaoModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Acusação</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="carta carta_sombra personagem click" ng-repeat="item in partida.barraAnotacao.suspeitos" ng-click="setAcusacao('suspeito',item)"
+                                     ng-class="{'carta_ativa': acusacao.suspeito == item }"
+                                     ng-if="!item.selecionada &amp;&amp; !item.minhaCarta">
+                                    <div class="perfil" style="background-image: url({{item.carta.src}}) "></div>
+                                    <span class="nome">{{item.carta.nome}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="carta arma carta_sombra click" ng-repeat="item in partida.barraAnotacao.armas" ng-click="setAcusacao('arma',item)"
+                                     ng-class="{'carta_ativa': acusacao.arma == item }"
+                                     ng-if="!item.selecionada &amp;&amp; !item.minhaCarta">
+                                    <div class="perfil" style="background-image: url({{item.carta.src}}) "></div>
+                                    <span class="nome">{{item.carta.nome}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="carta local carta_sombra click" ng-repeat="item in partida.barraAnotacao.locais" ng-click="setAcusacao('local',item)"
+                                     ng-class="{'carta_ativa': acusacao.local == item }"
+                                     ng-if="!item.selecionada &amp;&amp; !item.minhaCarta">
+                                    <div class="perfil" style="background-image: url({{item.carta.src}}) "></div>
+                                    <span class="nome">{{item.carta.nome}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" ng-disabled="DesabilitarAcusacao()" ng-click="enviarAcusacao()">
+                            Enviar Acusacao
                         </button>
                     </div>
                 </div>
@@ -1056,7 +1104,36 @@
             </div>
         </div>
 
+        <!-- JOGADOR GANHOU PARTIDA -->
+        <div class="modal fade" id="jogadorGanhouPartidaModal" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Fim de Jogo!</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h4>{{mensagemGanhador}}</h4>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="carta carta_sombra personagem" >
+                                    <div class="perfil" style="background-image: url({{palpiteGanhador.suspeito.src}}) "></div>
+                                    <span class="nome">{{palpiteGanhador.suspeito.nome}}</span>
+                                </div>
+                                <div class="carta carta_sombra arma">
+                                    <div class="perfil" style="background-image: url({{palpiteGanhador.arma.src}}) "></div>
+                                    <span class="nome">{{palpiteGanhador.arma.nome}}</span>
+                                </div>
+                                <div class="carta carta_sombra local">
+                                    <div class="perfil" style="background-image: url({{palpiteGanhador.local.src}}) "></div>
+                                    <span class="nome">{{palpiteGanhador.local.nome}}</span>
+                                </div>
+                            </div>
+                        </div>
 
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Chat Modal -->
         <div class="modal fade in" id="chatModal">

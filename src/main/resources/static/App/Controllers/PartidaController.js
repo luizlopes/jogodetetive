@@ -16,6 +16,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
     $scope.jogando = false;
     $scope.jogadasPossiveis = [];
     $scope.jogadaEscolhida = "Lançar dados";
+    $scope.acusacao = {};
 
     var local_carta = [];
 
@@ -219,8 +220,8 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
                 $scope.carta_comodo_jogador = {carta: local_carta[i].carta};
             }
         }
-        $('#palpiteModal').modal({backdrop: "static"});
         $scope.palpite = {};
+        $('#palpiteModal').modal({backdrop: "static"});
     }
 
     $scope.setPalpite = function(nome, carta) {
@@ -232,6 +233,23 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
             $scope.palpite.suspeito == undefined ||
             $scope.palpite.arma == undefined ||
             $scope.palpite.local == undefined 
+        );
+    }
+
+    $scope.AbrirModalAcusacao = function() {
+        $scope.acusacao = {};
+        $('#acusacaoModal').modal({backdrop: "static"});
+    }
+
+    $scope.setAcusacao = function(nome, carta) {
+        $scope.acusacao[nome] = carta;
+    }
+
+    $scope.DesabilitarAcusacao = function() {
+        return (
+            $scope.acusacao.suspeito == undefined ||
+            $scope.acusacao.arma == undefined ||
+            $scope.acusacao.local == undefined
         );
     }
 
@@ -332,6 +350,11 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         return JSON.stringify({ type: 'FAZER_PALPITE', response: { palpite }});
     }
 
+    // ENVIAR ACUSACAO
+    enviarAcusacaoResponse = function(acusacao) {
+        return JSON.stringify({ type: 'FAZER_ACUSACAO', response: { acusacao }});
+    }
+
     // ENVIAR CARTA SELECIONADA
     enviarCartaSelecionadaResponse = function(carta) {
         return JSON.stringify({ type: 'EXIBIR_CARTA', response: { carta }});
@@ -366,6 +389,14 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
     $scope.enviarPalpite = function() {
         WebsocketService.send_command(enviarPalpiteResponse($scope.palpite), function() {
             $('#palpiteModal').modal("hide");
+        });
+    }
+
+    // ENVIA ACUSACAO
+    $scope.enviarAcusacao = function() {
+        WebsocketService.send_command(enviarAcusacaoResponse($scope.acusacao), function() {
+            $('#acusacaoModal').modal("hide");
+            $scope.acusacao = {};
         });
     }
 
@@ -443,6 +474,10 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
             $scope.cartaExibida = command.options;
             $("#exibeCartaModal").modal({backdrop: "static"});
         }
+
+        if (command.type == "FAZER_ACUSACAO") {
+            $scope.AbrirModalAcusacao();
+        }
     });
 
     // USER INFO
@@ -476,6 +511,17 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
             if ($scope.palpiteFeito.jogador.usuario != DetetiveApi.getMeuJogador().usuario) {
                 $("#palpiteFeitoModal").modal("show");
             }
+        }
+        if (info.type == "GANHOU_PARTIDA") {
+            $scope.palpiteGanhador = info.body;
+
+            if ($scope.palpiteGanhador.jogador.usuario == DetetiveApi.getMeuJogador().usuario) {
+                $scope.mensagemGanhador = "VOCÊ GANHOU A PARTIDA!!!";
+            } else {
+                $scope.mensagemGanhador = "O jogador " + $scope.palpiteGanhador.personagem.nome + " (" + $scope.palpiteGanhador.usuario + ") acertou a acusação e ganhou a partida!";
+            }
+
+            $("#jogadorGanhouPartidaModal").modal({backdrop: "static"});
         }
     });
 

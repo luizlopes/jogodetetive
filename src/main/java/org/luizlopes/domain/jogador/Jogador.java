@@ -75,6 +75,18 @@ public class Jogador extends Observable {
         changeState(new VerCarta(contexto, cartaASerExibida));
     }
 
+    public void jogadorAcertouAcusacao(Contexto contexto) {
+        changeState(new JogadorGanhouPartida(contexto));
+    }
+
+    public void jogadorErrouAcusacao(Contexto contexto) {
+        changeState(new JogadorForaDaPartida(contexto));
+    }
+
+    public void fimDeJogo() {
+        changeState(new FimDeJogo());
+    }
+
     public JogadorStatus getStatus() {
         return state.status();
     }
@@ -94,4 +106,5 @@ public class Jogador extends Observable {
     public Contexto contexto() {
         return state.getContexto();
     }
+
 }
