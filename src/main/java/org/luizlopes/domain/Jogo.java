@@ -55,8 +55,9 @@ public class Jogo extends Observable implements Observer {
 
         if (status == JogoStatus.PARTIDA_INICIADA) {
             if (jogadores.todosEsperando()) {
-                atual = jogadores.proximo(atual);
+                atual = jogadores.proximoJogando(atual);
                 atual.escolherJogada(criaContexto());
+                jogador = atual;
             }
 
             if (atual != null && atual.contexto() != null && atual.contexto().isProntoParaSolicitar()) {
@@ -69,7 +70,9 @@ public class Jogo extends Observable implements Observer {
                     atual.jogadorAcertouAcusacao(atual.contexto());
                     encerrarPartida();
                 } else {
+                    atual.contexto().setCartasCrime(cartasCrime);
                     atual.jogadorErrouAcusacao(atual.contexto());
+                    jogador = atual;
                 }
             }
 

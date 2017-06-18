@@ -365,6 +365,11 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         return JSON.stringify({ type: 'VER_CARTA', response: "OK" });
     }
 
+    // ENVIAR ERROU ACUSACAO OK
+    enviarErrouAcusacaoOkResponse = function() {
+        return JSON.stringify({ type: 'FORA_DA_PARTIDA', response: "OK" });
+    }
+
     //
     $scope.IniciarPartida = function() {
         WebsocketService.send_command(aguardarInicioOkResponse(), function() {});
@@ -412,6 +417,10 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         WebsocketService.send_command(enviarCartaVistaOkResponse(), function() {
             $('#exibeCartaModal').modal("hide");
         });
+    }
+
+    $scope.enviarForaDaPartidaOk = function() {
+        WebsocketService.send_command(enviarErrouAcusacaoOkResponse(), function() {});
     }
 
     // RECEBE COMANDOS
@@ -478,6 +487,15 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         if (command.type == "FAZER_ACUSACAO") {
             $scope.AbrirModalAcusacao();
         }
+
+        if (command.type == "FORA_DA_PARTIDA") {
+            $scope.enviarForaDaPartidaOk();
+            $scope.palpitePerdedor = command.options[0];
+            $scope.personagemCrime = command.options[1];
+            $scope.armaCrime = command.options[2];
+            $scope.localCrime = command.options[3];
+            $("#jogadorForaVeCartasCrimeModal").modal({backdrop: "static"});
+        }
     });
 
     // USER INFO
@@ -495,9 +513,11 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
             DetetiveApi.setJogadores(info.body);
             $scope.PosicionarJogadores(info.body);
         }
+
         if (info.type == "JOGADOR_ATUAL") {
             $scope.jogadorDaVez = info.body;
         }
+
         if (info.type == "ULTIMO_JOGADOR") {
             var jogadorAtual = info.body;
             if (jogadorAtual.posicao.comodo) {
@@ -506,22 +526,33 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
                 $scope.DeslocarImg(jogadorAtual);
             }
         }
+
         if (info.type == "PALPITE_FEITO") {
             $scope.palpiteFeito = info.body;
             if ($scope.palpiteFeito.jogador.usuario != DetetiveApi.getMeuJogador().usuario) {
                 $("#palpiteFeitoModal").modal("show");
             }
         }
+
         if (info.type == "GANHOU_PARTIDA") {
             $scope.palpiteGanhador = info.body;
-
             if ($scope.palpiteGanhador.jogador.usuario == DetetiveApi.getMeuJogador().usuario) {
                 $scope.mensagemGanhador = "VOCÊ GANHOU A PARTIDA!!!";
             } else {
-                $scope.mensagemGanhador = "O jogador " + $scope.palpiteGanhador.personagem.nome + " (" + $scope.palpiteGanhador.usuario + ") acertou a acusação e ganhou a partida!";
+                $scope.mensagemGanhador = "O jogador " + $scope.palpiteGanhador.jogador.personagem.nome + " (" + $scope.palpiteGanhador.jogador.usuario + ") acertou a acusação e ganhou a partida!";
             }
-
             $("#jogadorGanhouPartidaModal").modal({backdrop: "static"});
+        }
+
+        if (info.type == "JOGADOR_FORA_DA_PARTIDA") {
+            $scope.palpitePerdedor = info.body[0];
+            if ($scope.palpitePerdedor.jogador.usuario != DetetiveApi.getMeuJogador().usuario) {
+                $scope.cartasSuspeitosPerdedor = info.body[1];
+                $scope.cartasArmasPerdedor = info.body[2];
+                $scope.cartasLocaisPerdedor = info.body[3];
+                $scope.mensagemPerdedor = "O jogador " + $scope.palpitePerdedor.jogador.personagem.nome + " (" + $scope.palpitePerdedor.jogador.usuario + ") errou a acusação e está fora da partida!";
+                $("#jogadorForaExibeCartasModal").modal({backdrop: "static"});
+            }
         }
     });
 

@@ -33,7 +33,7 @@ public class LancarDados implements JogadorState {
 
     @Override
     public Info sendInfo() {
-        return new Info(contexto.getAtual(), InfoType.JOGADOR_ATUAL);
+        return null;
     }
 
     @Override

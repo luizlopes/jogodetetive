@@ -59,7 +59,7 @@ public class DetetiveController implements Observer {
             } else {
                 Jogador jogador = jogadores.getByUsuario(principal.getName());
                 jogador.receiveCommand(command);
-                sendInfo(jogador);
+//                sendInfo(jogador);
             }
         }
     }
@@ -79,8 +79,6 @@ public class DetetiveController implements Observer {
             if (info.getType() == InfoType.JOGADORES) {
                 info.setBody(jogadores.jogadores());
             }
-            // PALPITE_FEITO
-
             sendGameInfo(info);
         }
     }
@@ -98,13 +96,6 @@ public class DetetiveController implements Observer {
             Info infoResponse = new Info(personagensDisponiveis, infoRequest.getType());
             template.convertAndSendToUser(principal.getName(), INFO_QUEUE, infoResponse);
         }
-        if (infoRequest.getType() == InfoType.ANOTACOES) {
-            Anotacoes anotacoes = cartaService.anotacoesIniciais();
-            Info infoResponse = new Info(anotacoes, infoRequest.getType());
-            template.convertAndSendToUser(principal.getName(), INFO_QUEUE, infoResponse);
-        }
-        // JOGADOR ATUAL
-        // TODOS JOGADORES
     }
 
     private void sendGameInfo(Info info) {

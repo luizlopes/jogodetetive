@@ -76,7 +76,15 @@ public class Jogadores extends Observable implements Observer {
         return existeJogadorAtivo;
     }
 
-    public Jogador proximo(Jogador atual) {
+    public Jogador proximoJogando(Jogador atual) {
+        Jogador proximoJogador = proximo(atual);
+        while (proximoJogador.getStatus() == JogadorStatus.FORA_DA_PARTIDA) {
+            proximoJogador = proximo(proximoJogador);
+        }
+        return proximoJogador;
+    }
+
+    private Jogador proximo(Jogador atual) {
         if (atual == null) {
             return primeiroJogador();
         } else {

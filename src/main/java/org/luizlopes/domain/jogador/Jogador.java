@@ -80,7 +80,7 @@ public class Jogador extends Observable {
     }
 
     public void jogadorErrouAcusacao(Contexto contexto) {
-        changeState(new JogadorForaDaPartida(contexto));
+        state = new JogadorErrouAcusacao(contexto);
     }
 
     public void fimDeJogo() {

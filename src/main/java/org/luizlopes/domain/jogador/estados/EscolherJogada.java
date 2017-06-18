@@ -5,6 +5,7 @@ import org.luizlopes.domain.jogador.JogadorStatus;
 import org.luizlopes.websocket.model.Command;
 import org.luizlopes.websocket.model.CommandType;
 import org.luizlopes.websocket.model.Info;
+import org.luizlopes.websocket.model.InfoType;
 
 public class EscolherJogada implements JogadorState {
 
@@ -25,9 +26,9 @@ public class EscolherJogada implements JogadorState {
     @Override
     public JogadorState receiveReponse(Command response) {
         JogadorState jogadorState = null;
-        if (response.getResponse().equals("Fazer acusação")) { // Fazer acusação
+        if (response.getResponse().equals("Fazer acusação")) {
             jogadorState = new FazerAcusacao(contexto);
-        } else { // Lançar dados
+        } else {
             jogadorState = new LancarDados(contexto);
         }
         return jogadorState;
@@ -35,7 +36,7 @@ public class EscolherJogada implements JogadorState {
 
     @Override
     public Info sendInfo() {
-        return null;
+        return new Info(contexto.getAtual(), InfoType.JOGADOR_ATUAL);
     }
 
     @Override

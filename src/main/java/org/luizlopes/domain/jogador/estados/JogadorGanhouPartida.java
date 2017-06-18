@@ -20,7 +20,7 @@ public class JogadorGanhouPartida implements JogadorState {
 
     @Override
     public JogadorState receiveReponse(Command response) {
-        return null;
+        return this;
     }
 
     @Override

@@ -1129,7 +1129,104 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <!-- JOGADOR PERDEU PARTIDA - EXIBE TODAS AS CARTAS -->
+        <div class="modal fade" id="jogadorForaExibeCartasModal" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Jogador fora do Jogo!</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h4>{{mensagemPerdedor}}</h4>
+                        <h5>Cartas de Acusação:</h5>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="carta carta_sombra personagem" >
+                                    <div class="perfil" style="background-image: url({{palpitePerdedor.suspeito.src}}) "></div>
+                                    <span class="nome">{{palpitePerdedor.suspeito.nome}}</span>
+                                </div>
+                                <div class="carta carta_sombra arma">
+                                    <div class="perfil" style="background-image: url({{palpitePerdedor.arma.src}}) "></div>
+                                    <span class="nome">{{palpitePerdedor.arma.nome}}</span>
+                                </div>
+                                <div class="carta carta_sombra local">
+                                    <div class="perfil" style="background-image: url({{palpitePerdedor.local.src}}) "></div>
+                                    <span class="nome">{{palpitePerdedor.local.nome}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <h5>Cartas do Jogador:</h5>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="carta carta_sombra personagem" ng-repeat="item in cartasSuspeitosPerdedor">
+                                    <div class="perfil" style="background-image: url({{item.src}}) "></div>
+                                    <span class="nome">{{item.nome}}</span>
+                                </div>
+                                <div class="carta arma carta_sombra" ng-repeat="item in cartasArmasPerdedor">
+                                    <div class="perfil" style="background-image: url({{item.src}}) "></div>
+                                    <span class="nome">{{item.nome}}</span>
+                                </div>
+                                <div class="carta local carta_sombra" ng-repeat="item in cartasLocaisPerdedor">
+                                    <div class="perfil" style="background-image: url({{item.src}}) "></div>
+                                    <span class="nome">{{item.nome}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- JOGADOR FORA DA PARTIDA - VE CARTAS CRIME -->
+        <div class="modal fade" id="jogadorForaVeCartasCrimeModal" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Você ERROU a acusação!</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h4>E agora está fora da partida... Veja as cartas:</h4>
+                        <h5>Sua Acusação</h5>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="carta carta_sombra personagem" >
+                                    <div class="perfil" style="background-image: url({{palpitePerdedor.suspeito.src}}) "></div>
+                                    <span class="nome">{{palpitePerdedor.suspeito.nome}}</span>
+                                </div>
+                                <div class="carta carta_sombra arma">
+                                    <div class="perfil" style="background-image: url({{palpitePerdedor.arma.src}}) "></div>
+                                    <span class="nome">{{palpitePerdedor.arma.nome}}</span>
+                                </div>
+                                <div class="carta carta_sombra local">
+                                    <div class="perfil" style="background-image: url({{palpitePerdedor.local.src}}) "></div>
+                                    <span class="nome">{{palpitePerdedor.local.nome}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <h5>Cartas Crime</h5>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="carta carta_sombra personagem">
+                                    <div class="perfil" style="background-image: url({{personagemCrime.src}}) "></div>
+                                    <span class="nome">{{personagemCrime.nome}}</span>
+                                </div>
+                                <div class="carta arma carta_sombra">
+                                    <div class="perfil" style="background-image: url({{armaCrime.src}}) "></div>
+                                    <span class="nome">{{armaCrime.nome}}</span>
+                                </div>
+                                <div class="carta local carta_sombra">
+                                    <div class="perfil" style="background-image: url({{localCrime.src}}) "></div>
+                                    <span class="nome">{{localCrime.nome}}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

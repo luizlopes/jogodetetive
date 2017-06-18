@@ -3,7 +3,9 @@ package org.luizlopes.domain.jogador.estados;
 import org.luizlopes.domain.jogador.Contexto;
 import org.luizlopes.domain.jogador.JogadorStatus;
 import org.luizlopes.websocket.model.Command;
+import org.luizlopes.websocket.model.CommandType;
 import org.luizlopes.websocket.model.Info;
+import org.luizlopes.websocket.model.InfoType;
 
 public class JogadorForaDaPartida implements JogadorState {
     private Contexto contexto;
@@ -24,7 +26,6 @@ public class JogadorForaDaPartida implements JogadorState {
 
     @Override
     public Info sendInfo() {
-        // Avisar todos que jogador está fora
         return null;
     }
 
@@ -35,6 +36,6 @@ public class JogadorForaDaPartida implements JogadorState {
 
     @Override
     public Contexto getContexto() {
-        return null;
+        return contexto;
     }
 }

@@ -1,5 +1,7 @@
 package org.luizlopes.domain;
 
+import lombok.Getter;
+
 import java.util.List;
 import java.util.Random;
 
@@ -8,9 +10,9 @@ public class CartasCrime {
     private final List<Carta> personagens;
     private final List<Carta> armas;
     private final List<Carta> locais;
-    private final Carta personagemCrime;
-    private final Carta armaCrime;
-    private final Carta localCrime;
+    @Getter private final Carta personagemCrime;
+    @Getter private final Carta armaCrime;
+    @Getter private final Carta localCrime;
 
     public CartasCrime(List<Carta> personagens, List<Carta> armas, List<Carta> locais) {
         this.personagens = personagens;
