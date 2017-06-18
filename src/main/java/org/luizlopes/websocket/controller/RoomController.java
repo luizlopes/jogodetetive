@@ -2,6 +2,7 @@ package org.luizlopes.websocket.controller;
 
 import org.luizlopes.domain.Jogadores;
 import org.luizlopes.domain.Jogo;
+import org.luizlopes.domain.JogoStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,7 @@ public class RoomController {
     public String home(Model model) {
         model.addAttribute("jogoStatus", jogo.getStatus());
         model.addAttribute("jogadores", jogadores.jogadores().size());
+        model.addAttribute("entrarEnabled", jogo.getStatus() == JogoStatus.PARTIDA_NAO_INICIADA);
         return "rooms";
     }
 

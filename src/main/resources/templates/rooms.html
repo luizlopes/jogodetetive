@@ -14,6 +14,7 @@
                     <th>Jogo</th>
                     <th>Status</th>
                     <th>Jogadores</th>
+                    <th>Tema</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,10 +23,20 @@
                     <td>Detetive</td>
                     <td th:text="${jogoStatus}" />
                     <td th:text="${jogadores}" />
-                    <td><a class="btn btn-primary" th:href="@{/board}">Entrar</a></td>
+                    <td>
+                        <select class="form-control">
+                            <option>Padrão</option>
+                            <option>Star Wars</option>
+                        </select>
+                    </td>
+                    <td>
+                        <span th:if="${entrarEnabled}">
+                            <a class="btn btn-primary" th:href="@{/board}">Entrar</a>
+                        </span>
+                    </td>
                     <td>
                         <form action="#" data-th-action="@{/reset}" data-th-object="${model}" method="post">
-                            <button class="btn btn-danger" type="submit">reiniciar</button>
+                            <button class="btn btn-danger" type="submit">Reiniciar</button>
                         </form>
                     </td>
                 </tr>
