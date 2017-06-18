@@ -60,7 +60,7 @@ public class Jogo extends Observable implements Observer {
 
             if (jogadores.todosEsperando()) {
                 atual = jogadores.proximo(atual);
-                atual.lancarDados(criaContexto());
+                atual.escolherJogada(criaContexto());
             }
             setChanged();
             notifyObservers(jogador);

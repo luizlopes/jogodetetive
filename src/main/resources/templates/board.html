@@ -1037,6 +1037,27 @@
             </div>
         </div>
 
+        <!-- JOGADOR ESCOLHE JOGADA A FAZER -->
+        <div class="modal fade" id="escolherJogadaModal" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">É a sua vez!</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Escolha sua próxima jogada</p>
+                        <select ng-model="jogadaEscolhida" ng-options="jogada for jogada in jogadasPossiveis" class="form-control">
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button ng-click="enviarJogadaEscolhida()" class="btn btn-primary">Escolher jogada</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
         <!-- Chat Modal -->
         <div class="modal fade in" id="chatModal">
             <div class="modal-dialog modal-lg">

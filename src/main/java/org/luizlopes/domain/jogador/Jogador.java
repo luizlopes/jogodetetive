@@ -63,8 +63,8 @@ public class Jogador extends Observable {
         return state.sendInfo();
     }
 
-    public void lancarDados(Contexto contexto) {
-        changeState(new LancarDados(contexto));
+    public void escolherJogada(Contexto contexto) {
+        state = new EscolherJogada(contexto);
     }
 
     public void solicitarExibirCartas(Contexto contexto) {

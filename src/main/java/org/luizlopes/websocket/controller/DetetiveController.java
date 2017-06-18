@@ -86,8 +86,9 @@ public class DetetiveController implements Observer {
     }
 
     private void sendCommand(Jogador jogador) {
-        if (jogador.sendCommand() != null)
-            template.convertAndSendToUser(jogador.getUsuario(), COMMAND_QUEUE, jogador.sendCommand());
+        Command command = jogador.sendCommand();
+        if (command != null)
+            template.convertAndSendToUser(jogador.getUsuario(), COMMAND_QUEUE, command);
     }
 
     @MessageMapping(INFO_BROKER)

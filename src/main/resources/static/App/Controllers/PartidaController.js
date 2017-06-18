@@ -14,6 +14,8 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
     $scope.max = 140;
     $scope.mestre = false;
     $scope.jogando = false;
+    $scope.jogadasPossiveis = [];
+    $scope.jogadaEscolhida = "Lançar dados";
 
     var local_carta = [];
 
@@ -310,6 +312,11 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         return JSON.stringify({ type: 'AGUARDAR_INICIO_JOGO', response: "OK" });
     }
 
+    // ESCOLHER JOGADA RESPONSE
+    escolherJogadaResponse = function(jogada) {
+        return JSON.stringify({ type: 'ESCOLHER_JOGADA', response: jogada });
+    }
+
     // LANCAR DADOS RESPONSE
     lancarDadosResponse = function(resultado) {
         return JSON.stringify({ type: 'LANCAR_DADOS', response: resultado });
@@ -347,6 +354,14 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         });
     };
 
+    // ENVIA JOGADA ESCOLHIDA
+    $scope.enviarJogadaEscolhida = function() {
+        WebsocketService.send_command(escolherJogadaResponse($scope.jogadaEscolhida), function() {
+            $("#escolherJogadaModal").modal("hide");
+            $scope.jogadaEscolhida = "Lançar dados";
+        });
+    };
+
     // ENVIA PALPITE
     $scope.enviarPalpite = function() {
         WebsocketService.send_command(enviarPalpiteResponse($scope.palpite), function() {
@@ -380,7 +395,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
             $("#chatModal").modal({backdrop: "static"});
         }
 
-            if (command.type == "ESPERAR_VEZ") {
+        if (command.type == "ESPERAR_VEZ") {
             if (!$scope.jogando) {
                 $("#chatModal").modal("hide");
                 $scope.jogando = true;
@@ -397,6 +412,11 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
             }
         }
 
+        if (command.type == "ESCOLHER_JOGADA") {
+            $scope.jogadasPossiveis = command.options;
+            $("#escolherJogadaModal").modal({backdrop: "static"});
+        }
+
         if (command.type == "LANCAR_DADOS") {
             $scope.AbrirModalLancarDados()
         }
@@ -409,13 +429,16 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
                 WebsocketService.send_command(moverJogadorResponse(posicao, comodo), null);
             });
         }
+
         if (command.type == "FAZER_PALPITE") {
             $scope.AbrirModalPalpite(command.options);
         }
+
         if (command.type == "EXIBIR_CARTA") {
             $scope.palpiteFeito = command.options;
             $("#selecionarCartaModal").modal({backdrop: "static"});
         }
+
         if (command.type == "VER_CARTA") {
             $scope.cartaExibida = command.options;
             $("#exibeCartaModal").modal({backdrop: "static"});
