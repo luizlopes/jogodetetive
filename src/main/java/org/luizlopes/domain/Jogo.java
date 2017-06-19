@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -88,39 +89,43 @@ public class Jogo extends Observable implements Observer {
     }
 
     private void iniciarPartida() {
-        cartasCrime = new CartasCrime(cartaService.getAllPersonagens(), cartaService.getAllArmas(), cartaService.getAllLocais());
+        final SorteadorDeCartas sorteadorDeCartas = new SorteadorDeCartas(
+                cartaService.getAllPersonagens(),
+                cartaService.getAllArmas(),
+                cartaService.getAllLocais(),
+                jogadores.quantidade());
 
-        jogadores.distribuirCartas(
-                cartasCrime.createSorteadorSuspeitos(jogadores.quantidade()),
-                cartasCrime.createSorteadorArmas(jogadores.quantidade()),
-                cartasCrime.createSorteadorLocais(jogadores.quantidade()));
+        cartasCrime = sorteadorDeCartas.getCartasCrime();
+
+        int index = 0;
+        for (Jogador jogador : jogadores.jogadores()) {
+            jogador.getAnotacoes().cartasSuspeitos(sorteadorDeCartas.getMonteSuspeitos(index));
+            jogador.getAnotacoes().cartasArmas(sorteadorDeCartas.getMonteArmas(index));
+            jogador.getAnotacoes().cartasLocais(sorteadorDeCartas.getMonteLocais(index));
+            index++;
+        }
 
         jogadores.iniciarPartida();
+
         for (Jogador jogador : jogadores.jogadores()) {
             setChanged();
             notifyObservers(jogador);
         }
+
         status = JogoStatus.PARTIDA_INICIADA;
     }
 
     private void encerrarPartida() {
-//        jogadores.encerrarPartida();
         status = JogoStatus.PARTIDA_ENCERRADA;
     }
 
     public void cancelarPartida() {
         status = JogoStatus.PARTIDA_CANCELADA;
-        // AVISAR JOGADORES QUE PARTIDA FOI CANCELADA
-        // NAO RECEBER MAIS MENSAGENS
     }
 
     public void reiniciarPartida() {
         status = JogoStatus.PARTIDA_NAO_INICIADA;
         atual = null;
         jogadores.reiniciar();
-        // AVISAR JOGADORES QUE PARTIDA SERÁ REINICIADA
-        // NAO RECEBER MENSAGENS
-        // RETORNAR JOGADORES PARA SUAS POSICOES INICIAIS
-        // INICIAR PARTIDA
     }
 }

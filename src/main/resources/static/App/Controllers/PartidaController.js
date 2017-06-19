@@ -478,6 +478,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
 
         if (command.type == "EXIBIR_CARTA") {
             $scope.palpiteFeito = command.options;
+            $("#palpiteAguardarRetornoModal").modal("hide");
             $("#selecionarCartaModal").modal({backdrop: "static"});
         }
 

@@ -9,7 +9,6 @@ import org.luizlopes.domain.Palpite;
 
 import static org.luizlopes.domain.jogador.JogadorStatus.ESPERANDO_APURAR_ACUSACAO;
 import static org.luizlopes.domain.jogador.JogadorStatus.ESPERANDO_EXIBIR_CARTA;
-import static org.luizlopes.domain.jogador.JogadorStatus.FAZENDO_ACUSACAO;
 
 @Getter
 public class Contexto {

@@ -117,24 +117,5 @@ public class Jogadores extends Observable implements Observer {
 
     public void reiniciar() {
         jogadores.clear();
-//        for (Map.Entry<String, Jogador> entry : jogadores.entrySet()) {
-//            entry.setValue(null);
-//        }
     }
-
-    public void encerrarPartida() {
-        for (Jogador jogador : jogadores.values()) {
-            jogador.fimDeJogo();
-        }
-    }
-
-    public void distribuirCartas(final Sorteador sorteadorSuspeitos, final Sorteador sorteadorArmas, final Sorteador sorteadorLocais) {
-        for (Map.Entry<String, Jogador> entry : jogadores.entrySet()) {
-            entry.getValue().getAnotacoes().cartasSuspeitos(sorteadorSuspeitos.distribuir());
-            entry.getValue().getAnotacoes().cartasArmas(sorteadorArmas.distribuir());
-            entry.getValue().getAnotacoes().cartasLocais(sorteadorLocais.distribuir());
-        }
-    }
-
-
 }
