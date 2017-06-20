@@ -320,6 +320,10 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         },1000);
     }
 
+    $scope.desabilitarEscolherPersonagem = function() {
+        return $scope.personagemEscolhido.nome == undefined;
+    }
+
     // ESCOLHER PERSONAGEM RESPONSE
     escolherPersonagemResponse = function(personagem) {
         return JSON.stringify({ type: 'ESCOLHER_PERSONAGEM', response: { nome: personagem.nome, src: personagem.src }});
