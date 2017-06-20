@@ -262,7 +262,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
     }
 
     $scope.PosicaoEhPorta = function(jogadorAtual, numeroJogadas, div, callback) {
-        if(div.hasClass('porta') && numeroJogadas > 1){
+        if(div.hasClass('porta') && numeroJogadas >= 1){
             var resultado = confirm('Deseja entrar?');
             if(resultado){
                 $scope.RemoverAcaoAndar();
