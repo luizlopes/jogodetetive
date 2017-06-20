@@ -1,20 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Detetive Login</title>
+    <title>New Account</title>
     <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 <body>
 <div class="container">
-    <h1>Detetive Login</h1>
-    <div th:if="${param.error}">
-        Invalid username and password.
-    </div>
-    <div th:if="${param.logout}">
-        You have been logged out.
-    </div>
+    <h1>Create Account</h1>
     <div style="width: 50%">
-        <form th:action="@{/login}" method="post">
+        <form th:action="@{/createAccount}" method="post">
             <div class="form-group">
                 <label> User Name: </label>
                 <input type="text" name="username" class="form-control" placeholder="your user name"/>
@@ -23,12 +17,14 @@
                 <label> Password: </label>
                 <input type="password" name="password" class="form-control" placeholder="your password"/>
             </div>
+            <div class="form-group">
+                <label> Repeat Password: </label>
+                <input type="password" name="repeat-password" class="form-control" placeholder="confirm your password"/>
+            </div>
             <div>
-                <input type="submit" value="Sign In" class="btn btn-primary"/>
+                <input type="submit" value="Create Account" class="btn btn-success"/>
             </div>
         </form>
-        <br/><br/>
-        <p>Ainda não tem uma conta? <a th:href="@{/createAccount}">Cadastre-se</a></p>
     </div>
 </div>
 </body>
