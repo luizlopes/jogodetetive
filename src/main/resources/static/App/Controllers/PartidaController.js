@@ -502,6 +502,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
             $scope.personagemCrime = command.options[1];
             $scope.armaCrime = command.options[2];
             $scope.localCrime = command.options[3];
+            $("#graficoPerdeuModal").modal("show");
             $("#jogadorForaVeCartasCrimeModal").modal({backdrop: "static"});
         }
     });
@@ -545,6 +546,7 @@ detetiveApp.controller('PartidaController', ['$scope', 'DetetiveApi', '$interval
         if (info.type == "GANHOU_PARTIDA") {
             $scope.palpiteGanhador = info.body;
             if ($scope.palpiteGanhador.jogador.usuario == DetetiveApi.getMeuJogador().usuario) {
+                $("#graficoGanhouModal").modal("show");
                 $scope.mensagemGanhador = "VOCÊ GANHOU A PARTIDA!!!";
             } else {
                 $scope.mensagemGanhador = "O jogador " + $scope.palpiteGanhador.jogador.personagem.nome + " (" + $scope.palpiteGanhador.jogador.usuario + ") acertou a acusação e ganhou a partida!";
